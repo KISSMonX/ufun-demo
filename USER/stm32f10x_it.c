@@ -24,6 +24,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
 #include "RTC.h"
+#include "SDIO_SD.h"
+
 
 /** @addtogroup STM32F10x_StdPeriph_Examples
  * @{
@@ -139,9 +141,28 @@ void SysTick_Handler(void)
 {
 }
 
+
+
 /******************************************************************************/
-/*            STM32F10x Peripherals Interrupt Handlers                        */
+/*                 STM32F10x Peripherals Interrupt Handlers                   */
+/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+/*  available peripheral interrupt handler's name please refer to the startup */
+/*  file (startup_stm32f10x_xx.s).                                            */
 /******************************************************************************/
+
+/*******************************************************************************
+* Function Name  : SDIO_IRQHandler
+* Description    : This function handles SDIO global interrupt request.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void SDIO_IRQHandler(void)
+{
+        SD_ProcessIRQSrc();
+}
+
+
 
 /**
  * @brief  This function handles RTC global interrupt request.
@@ -167,12 +188,6 @@ void RTC_IRQHandler(void)
 	}
 }
 
-/******************************************************************************/
-/*                 STM32F10x Peripherals Interrupt Handlers                   */
-/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
-/*  available peripheral interrupt handler's name please refer to the startup */
-/*  file (startup_stm32f10x_xx.s).                                            */
-/******************************************************************************/
 
 /**
  * @brief  This function handles PPP interrupt request.

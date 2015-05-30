@@ -202,7 +202,7 @@ void Time_Display(uint32_t TimeVar)
 	/* Compute seconds */
 	TSS = (TimeVar % 3600) % 60;
 
-	printf("Time: %0.2d:%0.2d:%0.2d\r", THH, TMM, TSS);
+	printf("Current Time: %0.2d:%0.2d:%0.2d\r", THH, TMM, TSS);
 }
 
 /**
@@ -290,9 +290,6 @@ void RTC_Init(void)
 
 	/* Clear reset flags */
 	RCC_ClearFlag();
-
-	/* Display time in infinite loop */
-	Time_Show();
 }
 
 

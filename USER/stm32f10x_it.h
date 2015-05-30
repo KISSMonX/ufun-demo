@@ -41,6 +41,8 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
 void RTC_IRQHandler(void);
+void SDIO_IRQHandler(void);
+
 
 #endif /* __STM32F10x_IT_H */
 

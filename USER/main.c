@@ -7,11 +7,17 @@
 //**************************************************************/
 
 #include "stm32f10x.h"
+#include <stdio.h>
 #include "BUZZER.h"
 #include "USART.h"
 #include "RTC.h"
-#include <stdio.h>
+#include "SDIO_SD.h"
 
+
+
+SD_Error Status = SD_OK;
+
+	
 /**************************************************************/
 //程 序 名： RCC_Config()
 //开 发 者： Haichao.Xie
@@ -66,6 +72,8 @@ void RCC_Config(void)
 }
 
 
+
+
 /**************************************************************/
 //程 序 名： main()
 //开 发 者： MingH
@@ -78,16 +86,45 @@ int main(void)
 	Beep_Init();		// 蜂鸣器初始化配置
 	USB2Serial_Init(); 	// 串口初始化配置
 	
-	// 开机等待输入
-	if (getchar() == 0x20) {
 		
+	// 开机等待输入空格进入测试
+	if (getchar() == 0x20) {
+		printf("\r\n侯名的测试项目: \r\n1. RTC \r\n2. SDIO \r\n3. BEEP\r\n");
+		printf("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
+		printf("请配置 RTC 时分秒! \r\n");
+		RTC_Init(); 		// RTC 初始化配置
 	}
-	printf("侯名的测试项目: 1. RTC 2. SDIO 3. BEEP\r\n");
 	
-	RTC_Init(); 		// RTC 初始化配置
 	
+	/*------------------------------ SD Init ---------------------------------- */
+		
+	printf("\r\n检测到已经插入 SD 卡......\r\n");
+	printf("正在初始化 SD 卡......\r\n");
+	printf("正在读取 SD 卡信息: \r\n\r\n");
+
+	if((Status = SD_Init()) == SD_OK) {
+	
+		printf ("\r\nSD 卡初始化成功!\r\n");
+	}
+	else {
+		printf("SD 卡初始化失败! \r\n");
+	}
+
+	
+	printf("\r\n******************\r\n\r\n");
+
 	while (1)
 	{
+		// 这里只做简单轮询
+		if (SD_Detect() != SD_NOT_PRESENT) {
+			// 蓝色 LED 表示 SD 卡插入
+			GPIO_ResetBits(GPIOA, GPIO_Pin_0);   
+		}
+		else {
+			
+			GPIO_SetBits(GPIOA, GPIO_Pin_0);
+		}
+	
 		Time_Show();		
 	}
 }
