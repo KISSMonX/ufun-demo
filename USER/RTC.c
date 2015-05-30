@@ -205,11 +205,12 @@ void Time_Display(uint32_t TimeVar)
 	printf("Current Time: %0.2d:%0.2d:%0.2d\r", THH, TMM, TSS);
 }
 
-/**
- * @brief  Shows the current time (HH:MM:SS) on the Hyperterminal.
- * @param  None
- * @retval None
- */
+/**************************************************************/
+//程 序 名： RCC_Config()
+//开 发 者： Haichao.Xie
+//入口参数： 无
+//功能说明： 显示当前时间: 时分秒
+//**************************************************************/
 void Time_Show(void)
 {
 	/* If 1s has been elapsed */
