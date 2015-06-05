@@ -24,8 +24,5 @@ build
 *.lst
 *.iex
 *.Opt
-*.uvoptx
-*.uvprojx
-*.uvopt
-*.uvproj
+
 
