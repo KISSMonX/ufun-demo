@@ -40,7 +40,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 extern __IO uint32_t TimeDisplay;
-
+extern unsigned char read_flag;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -184,7 +184,8 @@ void RTC_IRQHandler(void)
 
 		/* Wait until last write operation on RTC registers has finished */
 		RTC_WaitForLastTask();
-
+		
+		read_flag = 1;
 	}
 }
 

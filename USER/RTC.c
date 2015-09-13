@@ -136,28 +136,28 @@ void RTC_LED_Toggle(void)
  */
 uint32_t Time_Regulate(void)
 {
-	uint32_t Tmp_HH = 0xFF, Tmp_MM = 0xFF, Tmp_SS = 0xFF;
+	uint32_t Tmp_HH = 0x0, Tmp_MM = 0x0, Tmp_SS = 0x0;
 
-	printf("\r\n==============Time Settings===================");
-	printf("\r\n  Please Set Hours");
+//	printf("\r\n==============Time Settings===================");
+//	printf("\r\n  Please Set Hours");
 
-	while (Tmp_HH == 0xFF)
-	{
-		Tmp_HH = USART_Scanf(23);
-	}
-	printf(":  %d", Tmp_HH);
-	printf("\r\n  Please Set Minutes");
-	while (Tmp_MM == 0xFF)
-	{
-		Tmp_MM = USART_Scanf(59);
-	}
-	printf(":  %d", Tmp_MM);
-	printf("\r\n  Please Set Seconds");
-	while (Tmp_SS == 0xFF)
-	{
-		Tmp_SS = USART_Scanf(59);
-	}
-	printf(":  %d\r\n\r\n", Tmp_SS);
+//	while (Tmp_HH == 0xFF)
+//	{
+//		Tmp_HH = USART_Scanf(23);
+//	}
+//	printf(":  %d", Tmp_HH);
+//	printf("\r\n  Please Set Minutes");
+//	while (Tmp_MM == 0xFF)
+//	{
+//		Tmp_MM = USART_Scanf(59);
+//	}
+//	printf(":  %d", Tmp_MM);
+//	printf("\r\n  Please Set Seconds");
+//	while (Tmp_SS == 0xFF)
+//	{
+//		Tmp_SS = USART_Scanf(59);
+//	}
+//	printf(":  %d\r\n\r\n", Tmp_SS);
 
 	/* Return the value to store in RTC counter register */
 	return((Tmp_HH*3600 + Tmp_MM*60 + Tmp_SS));
@@ -202,12 +202,12 @@ void Time_Display(uint32_t TimeVar)
 	/* Compute seconds */
 	TSS = (TimeVar % 3600) % 60;
 
-	printf("Current Time: %0.2d:%0.2d:%0.2d\r", THH, TMM, TSS);
+	printf("Current Time: %0.2d:%0.2d:%0.2d\r\n", THH, TMM, TSS);
 }
 
 /**************************************************************/
 //程 序 名： RCC_Config()
-//开 发 者： Haichao.Xie
+//开 发 者： MingH
 //入口参数： 无
 //功能说明： 显示当前时间: 时分秒
 //**************************************************************/
