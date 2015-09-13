@@ -447,6 +447,26 @@
               <FileType>1</FileType>
               <FilePath>..\USER\USART.c</FilePath>
             </File>
+            <File>
+              <FileName>adc_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\adc_test.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwm_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\pwm_test.c</FilePath>
+            </File>
+            <File>
+              <FileName>I2C.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\I2C.c</FilePath>
+            </File>
+            <File>
+              <FileName>lis3dh_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\lis3dh_driver.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
