@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>uFun_Example</TargetName>
+      <TargetName>uFun_Test</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -47,7 +47,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Output\</OutputDirectory>
-          <OutputName>uFun_Example</OutputName>
+          <OutputName>uFun_Test</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -448,24 +448,29 @@
               <FilePath>..\USER\USART.c</FilePath>
             </File>
             <File>
-              <FileName>adc_test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\adc_test.c</FilePath>
-            </File>
-            <File>
-              <FileName>pwm_test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\pwm_test.c</FilePath>
-            </File>
-            <File>
               <FileName>I2C.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\I2C.c</FilePath>
             </File>
             <File>
-              <FileName>lis3dh_driver.c</FileName>
+              <FileName>LIS3DH.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\USER\lis3dh_driver.c</FilePath>
+              <FilePath>..\USER\LIS3DH.c</FilePath>
+            </File>
+            <File>
+              <FileName>PCIe.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\PCIe.c</FilePath>
+            </File>
+            <File>
+              <FileName>PWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\PWM.c</FilePath>
+            </File>
+            <File>
+              <FileName>ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\ADC.c</FilePath>
             </File>
           </Files>
         </Group>

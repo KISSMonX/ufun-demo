@@ -61,19 +61,18 @@ int main(void)
 	Adc_Init();
 	I2C_GPIO_Configuration();
 	err_code = LIS3DH_Init();
+	
 	if (NO_ERROR == err_code)
 	{
-		printf("\r\n LIS3DH Init is succeed! \r\n");
+		printf("\r\nLIS3DH Init is succeed! \r\n");
 	}
 	else
 	{
-		printf("\r\n LIS3DH Init is failed! \r\n");
+		printf("\r\nLIS3DH Init is failed! \r\n");
 	}
 	
 //	// 开机等待输入空格进入测试
 //	if (getchar() == 0x20) {
-//		printf("\r\n侯名的测试项目: \r\n1. RTC \r\n2. SDIO \r\n3. BEEP\r\n");
-//		printf("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
 //		printf("请配置 RTC 时分秒! \r\n");
 		RTC_Init(); 		// RTC 初始化配置
 		TIM_Cmd(TIM1, DISABLE);
@@ -86,11 +85,11 @@ int main(void)
 		printf ("\r\n发现SD卡!\r\n");
 	}
 	else {
-		printf("没有发现 SD 卡设备! \r\n");
+		printf("\r\n没有发现 SD 卡设备! \r\n");
 	}
 
 	
-	printf("\r\n******************\r\n\r\n");
+	printf("\r\n\r\n");
 
 	while (1)
 	{

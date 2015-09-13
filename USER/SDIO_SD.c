@@ -185,7 +185,7 @@ void SD_ShowCID(SD_CardInfo* SDCardInfo)
 	 *****************************************************************/
 	//SD_CID register:128bits.
 	//SD_CID[127:120]-->MID:8bits, binary number.
-	printf("ManufacturerID:0x%x \n\r",SDCardInfo->SD_cid.ManufacturerID);	//1 byte ,binary
+	printf("\r\n\r\nManufacturerID:0x%x \n\r",SDCardInfo->SD_cid.ManufacturerID);	//1 byte ,binary
 	//SD_CID[119:104]-->OID:16bits, two-character ascii string.
 	printf("OEM_appliID:0x%x \n\r",SDCardInfo->SD_cid.OEM_AppliID);
 	//SD_CID[103:64]-->PNM:40bits, five-character ascii string.
