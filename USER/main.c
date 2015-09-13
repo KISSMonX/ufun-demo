@@ -5,11 +5,12 @@
 #include "USART.h"
 #include "RTC.h"
 #include "SDIO_SD.h"
-#include "adc_test.h"
-#include "pwm_test.h"
+#include "ADC.h"
+#include "PWM.h"
 #include "I2C.h"
 #include "main.h"
-#include "lis3dh_driver.h"
+#include "LIS3DH.h"
+
 void RCC_Config(void);
 
 RCC_ClocksTypeDef RCC_ClockFreq;

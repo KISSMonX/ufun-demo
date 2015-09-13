@@ -1,7 +1,7 @@
 #include "stm32f10x.h"
 #include <stdio.h>
 #include "USART.h"
-#include "adc_test.h"
+#include "ADC.h"
 
 
 /**************************************************************/
