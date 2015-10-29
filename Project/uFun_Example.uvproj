@@ -445,6 +445,31 @@
               <FileType>1</FileType>
               <FilePath>..\USER\SDIO_SD.c</FilePath>
             </File>
+            <File>
+              <FileName>ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>I2C.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\I2C.c</FilePath>
+            </File>
+            <File>
+              <FileName>LIS3DH.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\LIS3DH.c</FilePath>
+            </File>
+            <File>
+              <FileName>PWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\PWM.c</FilePath>
+            </File>
+            <File>
+              <FileName>PCIe.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\PCIe.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -549,6 +574,36 @@
               <FileName>stm32f10x_bkp.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10X_FWLib\src\stm32f10x_bkp.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10X_FWLib\src\stm32f10x_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10X_FWLib\src\stm32f10x_can.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_cec.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10X_FWLib\src\stm32f10x_cec.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10X_FWLib\src\stm32f10x_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_dac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10X_FWLib\src\stm32f10x_dac.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_fsmc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10X_FWLib\src\stm32f10x_fsmc.c</FilePath>
             </File>
           </Files>
         </Group>
