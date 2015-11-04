@@ -5,7 +5,7 @@
 //程 序 名： PWM_init()
 //开 发 者： chenhonglin
 //入口参数： 无
-//功能说明： pwm初始化输出2.6Khz
+//功能说明： pwm初始化  PWMCH1-- GPIOPB8 PWMCH2-- GPIOPB9
 //**************************************************************/
 void  Pwm_Init(void)
 {
@@ -13,7 +13,7 @@ void  Pwm_Init(void)
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
 	
-	uint16_t CCR1_Val = 1538;
+	uint16_t CCR1_Val = 1000;
 	uint16_t PrescalerValue = 0;
 
 	/* GPIOB clock enable */
@@ -41,7 +41,7 @@ void  Pwm_Init(void)
 	PrescalerValue = (uint16_t) (SystemCoreClock / 8000000) - 1; 
 	
 	/* Time base configuration */
-	TIM_TimeBaseStructure.TIM_Period = 3076;
+	TIM_TimeBaseStructure.TIM_Period = 2000;
 	TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -67,6 +67,6 @@ void  Pwm_Init(void)
 	/* TIM1 enable counter */
 	TIM_Cmd(TIM4, ENABLE);
 	TIM_CtrlPWMOutputs(TIM4, ENABLE);
-
 }
+
 

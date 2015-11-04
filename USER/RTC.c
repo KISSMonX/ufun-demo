@@ -84,50 +84,6 @@ void RTC_Configuration(void)
 	RTC_WaitForLastTask();
 }
 
-/**************************************************************/
-//程 序 名： RTC_LED_Init
-//开 发 者： MingH
-//入口参数： 无
-//功能说明： RTC 秒指示 LED(红色和绿色交替), IO 口配置
-//**************************************************************/
-void RTC_LED_Init(void) 
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-
-
-	/* GPIOA clock enable */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-}
-
-/**************************************************************/
-//程 序 名： RTC_LED_Toggle
-//开 发 者： MingH
-//入口参数： 无
-//功能说明： RTC 秒指示 LED(红色和绿色交替), 交替翻转
-//**************************************************************/
-void RTC_LED_Toggle(void)
-{
-	static  char status = 0;
-	
-	if (status) {
-		GPIO_SetBits(GPIOA, GPIO_Pin_2);
-		GPIO_ResetBits(GPIOA, GPIO_Pin_1);
-		status = 0;
-	}
-	else {
-		GPIO_SetBits(GPIOA, GPIO_Pin_1);
-		GPIO_ResetBits(GPIOA, GPIO_Pin_2);
-		status = 1;
-	}
-}
-
 
 /**
  * @brief  Returns the time entered by user, using Hyperterminal.
@@ -232,7 +188,6 @@ void Time_Show(void)
 void RTC_Init(void)
 {
 	RTC_NVIC_Configuration(); // RTC 中断配置
-	RTC_LED_Init();
 	
 	if (BKP_ReadBackupRegister(BKP_DR1) != 0xA5A5)
 	{

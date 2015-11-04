@@ -4,107 +4,6 @@
 #include "ADC.h"
 
 
-/**************************************************************/
-//程 序 名： TIM2_Config()
-//开 发 者： chenhonglin
-//入口参数： 无
-//功能说明： 定时器基本时钟配置和PWM配置
-//**************************************************************/
-void TIM2_Config(void)
-{
-    TIM_OCInitTypeDef  TIM_OCInitStructure;//定义结构体
-    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure ;//定义结构体
-    /* 打开定时器2外设时钟 */ 
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2 , ENABLE);
-                          
-		/* 定时器2基本定时器设置 */
-		/* 定时器从0计数到0xff为一个定时周期 */
-    TIM_TimeBaseStructure.TIM_Period = 0xff;
-	
-		/* 设置预分频 2000 分频 */
-    TIM_TimeBaseStructure.TIM_Prescaler = 1000;
-	
-		/* 设置时钟分频系数，此处未分频 */
-    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-	
-		/* 向上计数模式 */
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	
-		/* 基本定时器初始化 */
-    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
-    
-		
-		//******************************//
-    /* 定时器2PWM设置  CH1  PWM1 模式 */
-    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-		
-		/* 使能输出 */
-    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-		
-		/* 设置初始 PWM 脉冲宽度为 0 */
-    TIM_OCInitStructure.TIM_Pulse = 0;
-		
-		/* 当定时器计数值小于 TIM_Pulse 时为低电平 */
-    TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
-		
-		/* TIM2的CH1初始化 */
-    TIM_OC1Init(TIM2, &TIM_OCInitStructure);
-		
-		/* 使能的预装载寄存器 */
-    TIM_OC1PreloadConfig(TIM2, TIM_OCPreload_Enable);
-		
-		
-		//******************************//
-    /* 定时器2PWM设置  CH2  PWM1 模式 */
-    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-		
-		/* 使能输出 */
-    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-		
-		/* 设置初始 PWM 脉冲宽度为 0 */
-    TIM_OCInitStructure.TIM_Pulse = 0;
-		
-		/* 当定时器计数值小于 TIM_Pulse 时为低电平 */
-    TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
-		
-		/* TIM2的CH2初始化 */
-    TIM_OC2Init(TIM2, &TIM_OCInitStructure);
-		
-		/* 使能的预装载寄存器 */
-    TIM_OC2PreloadConfig(TIM2, TIM_OCPreload_Enable);
-				
-		
-    /* 使能 TIM2 重载寄存器 ARR */
-    TIM_ARRPreloadConfig(TIM2, ENABLE);
-		
-    /* 使能定时器2 */
-    TIM_Cmd(TIM2, ENABLE);
-		
-		/* 使能定时器2的 update中断 */
-    //TIM_ITConfig(TIM2,TIM_IT_Update, ENABLE);
-}
-/**************************************************************/
-//程 序 名： ADC_GPIO_Config()
-//开 发 者： chenhonglin
-//入口参数： 无
-//功能说明： ADC GPIO配置
-//**************************************************************/
-void ADC_GPIO_Config(void)
-{	
-	GPIO_InitTypeDef GPIO_InitStructure;//定义结构体
-	/* GPIOA clock enable */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	/* TIM2 PWM Channel1 -- GPIOPA0 */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;//复用推挽输出
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	
-	/* GPIOA clock enable */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-}
-
 ////////////////////////////////////////////////////////////////
 #define ARRAYSIZE 2*4   //2通道*4字节
 #define ADC1_DR_Address    ((uint32_t)0x4001244C)
@@ -225,9 +124,7 @@ void DMA_Config(void)
 //功能说明： ADC所有外设初始化
 //**************************************************************/
 void  Adc_Init(void)
-{
-	ADC_GPIO_Config();	
-	TIM2_Config();		
+{	
   ADC_Config();
   DMA_Config(); 
 }
@@ -249,8 +146,8 @@ void  Adc_Proc(void)
     }
     pwmwave = value[0] >> 8;
 		printf("The AD_SIG1 value is: %d\r\n", pwmwave);
-    TIM2->CCR1 = pwmwave;
+   
     pwmwave = value[1] >> 8;
 		printf("The AD_SIG2 value is: %d\r\n", pwmwave);
-    TIM2->CCR2 = pwmwave;
+    
 }

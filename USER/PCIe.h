@@ -8,5 +8,7 @@ void Pcie_Gpio_Init(void);
 
 void Test_Pcie_Gpio(void);
 
+void Change_PcieIo_Flag(void);
+
 #endif
 

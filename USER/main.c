@@ -7,18 +7,32 @@
 #include "SDIO_SD.h"
 #include "ADC.h"
 #include "PWM.h"
+#include "PCIe.h"
 #include "I2C.h"
 #include "main.h"
 #include "LIS3DH.h"
+#include "RGB.h"
+#include "Touch.h"
+#include "Tim3.h"
 
 void RCC_Config(void);
 
 RCC_ClocksTypeDef RCC_ClockFreq;
 
-s16 ACCdata[3]={0,0,0};
+unsigned char read_lis3dh_flag = 0;
+s16 ACCdata[3] = {0,0,0};
+s16 oldACCdata[3] = {0,0,0};
+s16 ACCdiff[3] = {0,0,0};
 
-unsigned char read_flag = 0;
+unsigned char i = 0;
 
+unsigned char one_second_flag = 0;
+
+unsigned int buzzer_delay = 0;
+
+unsigned char save_sd_detect = 0;
+unsigned char read_sd_detect_flag = 0;
+unsigned char sd_detect_change = 0;
 /*******************************************************************************
 * Function Name  : SysTick_Delay_ms
 * Description    : Inserts a delay time.
@@ -54,6 +68,11 @@ int main(void)
 	unsigned char err_code;
 	RCC_Config();		// 时钟初始化配置
 	Beep_Init();		// 蜂鸣器初始化配置
+	Touch_Init();
+	Pcie_Gpio_Init();
+	Tim3_Init();
+	
+	RGB_Init();     //RGB 初始化
 	RCC_GetClocksFreq(&RCC_ClockFreq);		
 	SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK);	
 	USB2Serial_Init(); 	// 串口初始化配置
@@ -71,14 +90,8 @@ int main(void)
 		printf("\r\nLIS3DH Init is failed! \r\n");
 	}
 	
-//	// 开机等待输入空格进入测试
-//	if (getchar() == 0x20) {
-//		printf("请配置 RTC 时分秒! \r\n");
-		RTC_Init(); 		// RTC 初始化配置
-		TIM_Cmd(TIM1, DISABLE);
-		TIM_CtrlPWMOutputs(TIM1, DISABLE);
-//	}
-	
+	RTC_Init(); 		// RTC 初始化配置
+
 
 	if(SD_Init() == SD_OK) {
 	
@@ -87,29 +100,62 @@ int main(void)
 	else {
 		printf("\r\n没有发现 SD 卡设备! \r\n");
 	}
-
-	
 	printf("\r\n\r\n");
-
+	save_sd_detect = SD_Detect(); //初始化SD卡插入状态
+	
+	SysTick_Delay_ms(500);
+	TIM_Cmd(TIM1, DISABLE);
+	TIM_CtrlPWMOutputs(TIM1, DISABLE);
 	while (1)
 	{
-		// 这里只做简单轮询
-		if (SD_Detect() != SD_NOT_PRESENT) {
-			// G_LED 表示 SD 卡插入
-			GPIO_ResetBits(GPIOA, GPIO_Pin_2);   
-		}
-		else {
-			GPIO_SetBits(GPIOA, GPIO_Pin_2);
+		if(read_sd_detect_flag){
+			
+			if (save_sd_detect != SD_Detect()){
+				/* 蜂鸣器响 */
+				TIM_Cmd(TIM1, ENABLE);
+				TIM_CtrlPWMOutputs(TIM1, ENABLE);
+				sd_detect_change = 1; //SD卡插入状态有变
+				buzzer_delay = 0;
+				if (SD_Detect() != SD_NOT_PRESENT){
+						if(SD_Init() == SD_OK) {
+							printf ("\r\n发现SD卡!\r\n");
+						}
+						else {
+							printf("\r\n没有发现 SD 卡设备! \r\n");
+						}
+						printf("\r\n\r\n");
+						save_sd_detect = SD_Detect(); //初始化SD卡插入状态
+				}
+			}
+			save_sd_detect = SD_Detect();
+			read_sd_detect_flag = 0;
 		}
 		
+		
 		Time_Show();	
-		if (read_flag)
-		{
-			Adc_Proc();
-			
+		Test_Pcie_Gpio();
+		Touch_Key_Proc();
+		
+		if (read_lis3dh_flag){
 			Collect_Data(ACCdata);
+			for (i=0; i<3; i++){
+				if (oldACCdata[i] < ACCdata[i]){
+					ACCdiff[i] = ACCdata[i] - oldACCdata[i];
+				}
+				else{
+					ACCdiff[i] = oldACCdata[i] - ACCdata[i];
+				}
+			}
+			RGB_Control(ACCdiff[0]<<2, ACCdiff[1]<<2, ACCdiff[2]<<2);
+			for (i=0; i<3; i++){
+				oldACCdata[i] = ACCdata[i];
+			}
+			read_lis3dh_flag = 0;
+		}
+		if (one_second_flag){
 			printf("X=%d, Y=%d, Z=%d\r\n\r\n", ACCdata[1], ACCdata[0], ACCdata[2]);
-			read_flag = 0;
+			Adc_Proc();
+			one_second_flag = 0;
 		}
 	}
 }

@@ -150,28 +150,6 @@ static SD_Error IsCardProgramming(uint8_t *pstatus);
 static SD_Error FindSCR(uint16_t rca, uint32_t *pscr);
 uint8_t convert_from_bytes_to_power_of_two(uint16_t NumberOfBytes);
 
-/**************************************************************/
-//程 序 名： SD_LED_Init
-//开 发 者： MingH
-//入口参数： 无
-//功能说明： SD 卡状态指示, 蓝色表示正常.
-//**************************************************************/
-void SD_LED_Init(void) 
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-
-
-	/* GPIOA clock enable */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-}
-
 
 /**
   * @brief  show the CID information.
@@ -460,7 +438,6 @@ SD_Error SD_Init(void)
 	SD_LowLevel_Init();
 
 	SDIO_DeInit();
-	SD_LED_Init();
 
 	errorstatus = SD_PowerON();
 

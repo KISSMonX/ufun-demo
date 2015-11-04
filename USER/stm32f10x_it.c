@@ -24,7 +24,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
 #include "RTC.h"
-#include "SDIO_SD.h"
 
 
 /** @addtogroup STM32F10x_StdPeriph_Examples
@@ -40,7 +39,11 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 extern __IO uint32_t TimeDisplay;
-extern unsigned char read_flag;
+extern unsigned char one_second_flag;
+
+
+
+
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -159,7 +162,7 @@ void SysTick_Handler(void)
 *******************************************************************************/
 void SDIO_IRQHandler(void)
 {
-        SD_ProcessIRQSrc();
+    SD_ProcessIRQSrc();
 }
 
 
@@ -176,18 +179,17 @@ void RTC_IRQHandler(void)
 		/* Clear the RTC Second interrupt */
 		RTC_ClearITPendingBit(RTC_IT_SEC);
 
-		/* Toggle LED1 */
-		RTC_LED_Toggle();
-
 		/* Enable time update */
 		TimeDisplay = 1;
 
 		/* Wait until last write operation on RTC registers has finished */
 		RTC_WaitForLastTask();
 		
-		read_flag = 1;
+		one_second_flag = 1;
 	}
 }
+
+
 
 
 /**
