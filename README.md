@@ -6,13 +6,14 @@
 
 - 触摸按键: 按下后背面白色 LED3 会亮, 长按长亮.  
 - CH340: ISP以及串口转 USB 功能. 实现串口输出打印.  
-- 三轴加速度计: 将三轴的值使用 PWM 控制 RGB LED颜色.
+- 三轴加速度计: 将三轴的值使用 TIM2 PMW 控制 RGB LED颜色.
 - 蜂鸣器: SD 卡插拔会有提示音, 开机会响几秒.
-- ADC: 
-- PMW: 控制 RGB 呼吸效果. 
+- TIM4 PWM: CH3 CH4 输出两路PWM。
+- ADC: 将TIM4 的CH3 CH4 两路PWM经过运放电路作为ADC的输入。
+- TIM2 PMW: CH1 CH2 CH3控制 RGB 呼吸效果. 
 - SD卡: 读取 SD 卡信息. 插拔识别. 
 - RTC: 输出当前日期
-- mini PCI-e(IO口测试)
+- mini PCI-e(IO口测试) 所有IO都有方波输出。
 
 在没有使用 rt-thread 正式开发之前, 希望大家多多贡献自己的代码和想法.    
 

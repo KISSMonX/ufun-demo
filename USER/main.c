@@ -4,7 +4,7 @@
 #include "BUZZER.h"
 #include "USART.h"
 #include "RTC.h"
-#include "SDIO_SD.h"
+#include "SDIO.h"
 #include "ADC.h"
 #include "PWM.h"
 #include "PCIe.h"
@@ -124,7 +124,6 @@ int main(void)
 							printf("\r\n没有发现 SD 卡设备! \r\n");
 						}
 						printf("\r\n\r\n");
-						save_sd_detect = SD_Detect(); //初始化SD卡插入状态
 				}
 			}
 			save_sd_detect = SD_Detect();
@@ -146,7 +145,7 @@ int main(void)
 					ACCdiff[i] = oldACCdata[i] - ACCdata[i];
 				}
 			}
-			RGB_Control(ACCdiff[0]<<2, ACCdiff[1]<<2, ACCdiff[2]<<2);
+			RGB_Control(ACCdiff[0]<<1, ACCdiff[1]<<1, ACCdiff[2]<<1);
 			for (i=0; i<3; i++){
 				oldACCdata[i] = ACCdata[i];
 			}
