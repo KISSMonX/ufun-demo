@@ -1,7 +1,7 @@
 #include "stm32f10x.h"
 #include "Tim3.h"
 #include "PCIe.h"
-#include "SDIO_SD.h"
+#include "SDIO.h"
 
 unsigned int timer3_cnt = 0;
 
