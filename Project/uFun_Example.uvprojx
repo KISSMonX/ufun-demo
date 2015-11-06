@@ -472,6 +472,21 @@
               <FileType>1</FileType>
               <FilePath>..\USER\ADC.c</FilePath>
             </File>
+            <File>
+              <FileName>RGB.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\RGB.c</FilePath>
+            </File>
+            <File>
+              <FileName>Touch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\Touch.c</FilePath>
+            </File>
+            <File>
+              <FileName>Tim3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\Tim3.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
