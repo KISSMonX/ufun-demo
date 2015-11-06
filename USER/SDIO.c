@@ -26,7 +26,7 @@
   *
   */
 
-#include "SDIO_SD.h"
+#include "SDIO.h"
 #include <stdio.h>
 
 
