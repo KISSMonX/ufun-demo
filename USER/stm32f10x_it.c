@@ -162,7 +162,7 @@ void SysTick_Handler(void)
 *******************************************************************************/
 void SDIO_IRQHandler(void)
 {
-    SD_ProcessIRQSrc();
+	SD_ProcessIRQSrc();
 }
 
 
@@ -174,8 +174,7 @@ void SDIO_IRQHandler(void)
  */
 void RTC_IRQHandler(void)
 {
-	if (RTC_GetITStatus(RTC_IT_SEC) != RESET)
-	{
+	if (RTC_GetITStatus(RTC_IT_SEC) != RESET) {
 		/* Clear the RTC Second interrupt */
 		RTC_ClearITPendingBit(RTC_IT_SEC);
 
@@ -184,7 +183,7 @@ void RTC_IRQHandler(void)
 
 		/* Wait until last write operation on RTC registers has finished */
 		RTC_WaitForLastTask();
-		
+
 		one_second_flag = 1;
 	}
 }

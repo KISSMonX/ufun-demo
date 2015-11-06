@@ -1,26 +1,26 @@
 
 /**************************************************************/
-//°æ ±¾ ºÅ£º Ver 1.0
-//¿ª ·¢ Õß£º MingH
-//Éú³ÉÈÕÆÚ£º 2015-5-20
-//ÆäËûËµÃ÷£º ÎŞÔ´·äÃùÆ÷²âÊÔ³ÌĞò, ¶ÔÓ¦°å¿¨ IO ¿Ú: GPA8
-//           Ğ³ÕñÆµÂÊ 2.6KHz
+//ç‰ˆ æœ¬ å·ï¼š Ver 1.0
+//å¼€ å‘ è€…ï¼š MingH
+//ç”Ÿæˆæ—¥æœŸï¼š 2015-5-20
+//å…¶ä»–è¯´æ˜ï¼š æ— æºèœ‚é¸£å™¨æµ‹è¯•ç¨‹åº, å¯¹åº”æ¿å¡ IO å£: GPA8
+//           è°æŒ¯é¢‘ç‡ 2.6KHz
 //**************************************************************/
 #include "stm32f10x.h"
 #include "BUZZER.h"
 
 
 /**************************************************************/
-//¹¦ÄÜËµÃ÷£º ·äÃùÆ÷³õÊ¼»¯ÅäÖÃ(IO¿Ú, ¶¨Ê±Æ÷1)
-//Èë¿Ú²ÎÊı£º ÎŞ
-//·µ»ØÖµ  :  ÎŞ
+//åŠŸèƒ½è¯´æ˜ï¼š èœ‚é¸£å™¨åˆå§‹åŒ–é…ç½®(IOå£, å®šæ—¶å™¨1)
+//å…¥å£å‚æ•°ï¼š æ— 
+//è¿”å›å€¼  :  æ— 
 //**************************************************************/
 void  Beep_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
-	
+
 	uint16_t CCR1_Val = 1538;
 	uint16_t PrescalerValue = 0;
 
@@ -43,14 +43,14 @@ void  Beep_Init(void)
 	   TIM1 Channel4 duty cycle = (TIM1_CCR4/ TIM1_ARR)* 100 = 12.5%
 	   ----------------------------------------------------------------------- */
 	/* Compute the prescaler value */
-	PrescalerValue = (uint16_t) (SystemCoreClock / 8000000) - 1; 
-	
+	PrescalerValue = (uint16_t) (SystemCoreClock / 8000000) - 1;
+
 	/* Time base configuration */
 	TIM_TimeBaseStructure.TIM_Period = 3076;
 	TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0; 
+	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 
 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
 
@@ -61,8 +61,8 @@ void  Beep_Init(void)
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputState_Enable;
 	TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
-	TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCIdleState_Reset;  
-	TIM_OCInitStructure.TIM_Pulse = CCR1_Val;        
+	TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCIdleState_Reset;
+	TIM_OCInitStructure.TIM_Pulse = CCR1_Val;
 
 	TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Enable);
 	TIM_OC1Init(TIM1, &TIM_OCInitStructure);

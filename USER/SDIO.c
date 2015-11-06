@@ -1,30 +1,30 @@
 /**************************************************************/
-//∞Ê ±æ ∫≈£∫ Ver 1.0
-//ø™ ∑¢ ’ﬂ£∫ MingH
-//…˙≥…»’∆⁄£∫ 2015-5-29
-//∆‰À˚Àµ√˜£∫ SD ø®≤‚ ‘, DMA∑√Œ . 4-bus ƒ£ Ω. CD ”√”⁄÷–∂œºÏ≤‚»»≤Â∞Œ◊¥Ã¨
+//Áâà Êú¨ Âè∑Ôºö Ver 1.0
+//ÂºÄ Âèë ËÄÖÔºö MingH
+//ÁîüÊàêÊó•ÊúüÔºö 2015-5-29
+//ÂÖ∂‰ªñËØ¥ÊòéÔºö SD Âç°ÊµãËØï, DMAËÆøÈóÆ. 4-bus Ê®°Âºè. CD Áî®‰∫é‰∏≠Êñ≠Ê£ÄÊµãÁÉ≠ÊèíÊãîÁä∂ÊÄÅ
 //**************************************************************/
- /*
-  *          STM32 SDIO Pin assignment
-  *          =========================
-  *          +-----------------------------------------------------------+
-  *          |                     uFun Pin assignment                   |
-  *          +-----------------------------+---------------+-------------+
-  *          |  STM32 SDIO Pins            |     SD        |    Pin      |
-  *          +-----------------------------+---------------+-------------+
-  *          |      SDIO D2                |   D2          |    1        |
-  *          |      SDIO D3                |   D3          |    2        |
-  *          |      SDIO CMD               |   CMD         |    3        |
-  *          |                             |   VCC         |    4 (3.3 V)|
-  *          |      SDIO CLK               |   CLK         |    5        |
-  *          |                             |   VSS         |    6 (0 V)  |
-  *          |      SDIO D0                |   D0          |    7        |
-  *          |      SDIO D1                |   D1          |    8        |
-  *	     |      SDIO_CD		   |   A           |    9	 |
-  *	     |      			   |   B           |    10(0V)	 |
-  *          +-----------------------------+---------------+-------------+
-  *
-  */
+/*
+ *          STM32 SDIO Pin assignment
+ *          =========================
+ *          +-----------------------------------------------------------+
+ *          |                     uFun Pin assignment                   |
+ *          +-----------------------------+---------------+-------------+
+ *          |  STM32 SDIO Pins            |     SD        |    Pin      |
+ *          +-----------------------------+---------------+-------------+
+ *          |      SDIO D2                |   D2          |    1        |
+ *          |      SDIO D3                |   D3          |    2        |
+ *          |      SDIO CMD               |   CMD         |    3        |
+ *          |                             |   VCC         |    4 (3.3 V)|
+ *          |      SDIO CLK               |   CLK         |    5        |
+ *          |                             |   VSS         |    6 (0 V)  |
+ *          |      SDIO D0                |   D0          |    7        |
+ *          |      SDIO D1                |   D1          |    8        |
+ *	     |      SDIO_CD		   |   A           |    9	 |
+ *	     |      			   |   B           |    10(0V)	 |
+ *          +-----------------------------+---------------+-------------+
+ *
+ */
 
 #include "SDIO.h"
 #include <stdio.h>
@@ -41,14 +41,14 @@
 #define SDIO_CMD0TIMEOUT                ((uint32_t)0x00010000)
 
 #define SDIO_FIFO_ADDRESS                ((uint32_t)0x40018080)
-/** 
+/**
   * @brief  SDIO Intialization Frequency (400KHz max)
   */
 #define SDIO_INIT_CLK_DIV                ((uint8_t)0xB2)
-/** 
-  * @brief  SDIO Data Transfer Frequency (25MHz max) 
+/**
+  * @brief  SDIO Data Transfer Frequency (25MHz max)
   */
-#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x00) 
+#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x00)
 /**
 * @brief  Mask for errors Card Status R1 (OCR Register)
 */
@@ -102,17 +102,17 @@
 #define SD_HALFFIFO                     ((uint32_t)0x00000008)
 #define SD_HALFFIFOBYTES                ((uint32_t)0x00000020)
 
-  /**
-   * @brief  Command Class Supported
-   */
+/**
+ * @brief  Command Class Supported
+ */
 #define SD_CCCC_LOCK_UNLOCK             ((uint32_t)0x00000080)
 #define SD_CCCC_WRITE_PROT              ((uint32_t)0x00000040)
 #define SD_CCCC_ERASE                   ((uint32_t)0x00000020)
 
-  /**
-   * @brief  Following commands are SD Card Specific commands.
-   *         SDIO_APP_CMD should be sent before sending these commands.
-   */
+/**
+ * @brief  Following commands are SD Card Specific commands.
+ *         SDIO_APP_CMD should be sent before sending these commands.
+ */
 #define SDIO_SEND_IF_COND               ((uint32_t)0x00000008)
 
 
@@ -156,27 +156,27 @@ uint8_t convert_from_bytes_to_power_of_two(uint16_t NumberOfBytes);
   * @param  SD_CardInfo structure pointer
   * @retval None
   */
-void SD_ShowCID(SD_CardInfo* SDCardInfo)
+void SD_ShowCID(SD_CardInfo *SDCardInfo)
 {
 	/*****************************************************************
 	 *							SD_CID :Card IDentification Register.
 	 *****************************************************************/
 	//SD_CID register:128bits.
 	//SD_CID[127:120]-->MID:8bits, binary number.
-	printf("\r\n\r\nManufacturerID:0x%x \n\r",SDCardInfo->SD_cid.ManufacturerID);	//1 byte ,binary
+	printf("\r\n\r\nManufacturerID:0x%x \n\r", SDCardInfo->SD_cid.ManufacturerID);	//1 byte ,binary
 	//SD_CID[119:104]-->OID:16bits, two-character ascii string.
-	printf("OEM_appliID:0x%x \n\r",SDCardInfo->SD_cid.OEM_AppliID);
+	printf("OEM_appliID:0x%x \n\r", SDCardInfo->SD_cid.OEM_AppliID);
 	//SD_CID[103:64]-->PNM:40bits, five-character ascii string.
-	printf("ProductName:%c%c%c%c%c \n\r",SDCardInfo->SD_cid.ProdName1>>24,SDCardInfo->SD_cid.ProdName1>>16,SDCardInfo->SD_cid.ProdName1>>8,SDCardInfo->SD_cid.ProdName1,SDCardInfo->SD_cid.ProdName2);
+	printf("ProductName:%c%c%c%c%c \n\r", SDCardInfo->SD_cid.ProdName1 >> 24, SDCardInfo->SD_cid.ProdName1 >> 16, SDCardInfo->SD_cid.ProdName1 >> 8, SDCardInfo->SD_cid.ProdName1, SDCardInfo->SD_cid.ProdName2);
 	//SD_CID[63:56]-->PRV:8bits, 2 BCD digits.
-	printf("ProductVersion:	%d%d \n\r",SDCardInfo->SD_cid.ProdRev>>4,SDCardInfo->SD_cid.ProdRev&0x0f);
+	printf("ProductVersion:	%d%d \n\r", SDCardInfo->SD_cid.ProdRev >> 4, SDCardInfo->SD_cid.ProdRev & 0x0f);
 	//SD_CID[55:24]-->PSN:32bits, 32bits binary number.
-	printf("ProductSerialNumber:%x \n\r",SDCardInfo->SD_cid.ProdSN);
+	printf("ProductSerialNumber:%x \n\r", SDCardInfo->SD_cid.ProdSN);
 	//SD_CID[23:20]-->Reserved:4bits.
 	//SD_CID[19:8]-->MDT:12bits, 3 BCD digits:yym.
-	printf("ManufactureDate:%x%x-%x \n\r",SDCardInfo->SD_cid.ManufactDate>>8&0x0f,SDCardInfo->SD_cid.ManufactDate>>4&0x0f,SDCardInfo->SD_cid.ManufactDate&0x0f);
+	printf("ManufactureDate:%x%x-%x \n\r", SDCardInfo->SD_cid.ManufactDate >> 8 & 0x0f, SDCardInfo->SD_cid.ManufactDate >> 4 & 0x0f, SDCardInfo->SD_cid.ManufactDate & 0x0f);
 	//SD_CID[7:1]-->CRC check sum.
-	printf("CID_CRC:%x \n\r",SDCardInfo->SD_cid.CID_CRC);
+	printf("CID_CRC:%x \n\r", SDCardInfo->SD_cid.CID_CRC);
 	//SD_CID[0]-->Not used, always be one.
 }
 
@@ -193,46 +193,45 @@ void SD_ShowCSD(SD_CardInfo *SDCardInfo)
 	 *****************************************************************/
 	//SD_CSD register:128bits.
 	//SD_CSD[127:126]-->CSD_Structure:2bits, 0--Version 1.0  1--Version 2.0 2,3---Reserved.
-	printf("CSD Structure Version:%x\n\r",SDCardInfo->SD_csd.CSDStruct+1);
-	if( SDCardInfo->SD_csd.CSDStruct == 1)//Case V1.0
-	{
+	printf("CSD Structure Version:%x\n\r", SDCardInfo->SD_csd.CSDStruct + 1);
+	if ( SDCardInfo->SD_csd.CSDStruct == 1) { //Case V1.0
 		//SD_CSD[125:120]-->Reserved.
 		//SD_CSD[119:112]-->TAAC:8bits,complicated.
-		printf("Asynchronous access time:0x%x\n\r",SDCardInfo->SD_csd.TAAC);
+		printf("Asynchronous access time:0x%x\n\r", SDCardInfo->SD_csd.TAAC);
 		//SD_CSD[111:104]-->NSAC:8bits,complicated.
-		printf("NSAC:0x%x",SDCardInfo->SD_csd.NSAC);
+		printf("NSAC:0x%x", SDCardInfo->SD_csd.NSAC);
 		//SD_CSD[103:96]-->TRAN_SPEED:8bits,0x32 or 0x5a.
-		printf("Max data transfer rate:0x%x\n\r",SDCardInfo->SD_csd.MaxBusClkFrec);
+		printf("Max data transfer rate:0x%x\n\r", SDCardInfo->SD_csd.MaxBusClkFrec);
 		//SD_CSD[95:84]-->CCC:12bits,01x1 1011 0101b.
-		printf("Card command classes:0x%x\n\r",SDCardInfo->SD_csd.CardComdClasses);
+		printf("Card command classes:0x%x\n\r", SDCardInfo->SD_csd.CardComdClasses);
 		//SD_CSD[83:80]-->READ_BL_LEN:4bits,9---512Bytes,10--1024Bytes,11--2048Bytes.
-		printf("Max. read block length:%d\n\r",1<<SDCardInfo->SD_csd.RdBlockLen);
+		printf("Max. read block length:%d\n\r", 1 << SDCardInfo->SD_csd.RdBlockLen);
 		//SD_CSD[79:79]-->READ_BL_PARTIAL:1bits, always 1 for SD Memory Card.
-		printf("Partial block read allowed?...%d\n\r",SDCardInfo->SD_csd.PartBlockRead);
+		printf("Partial block read allowed?...%d\n\r", SDCardInfo->SD_csd.PartBlockRead);
 		//SD_CSD[78:78]-->WRITE_BLK_MISALIGN:1bits. 1 for allowed.
-		printf("Write block misalignment allowed?...%d\n\r",SDCardInfo->SD_csd.WrBlockMisalign);
+		printf("Write block misalignment allowed?...%d\n\r", SDCardInfo->SD_csd.WrBlockMisalign);
 		//SD_CSD[77:77]-->READ_BLK_MISALIGN:1bits. 1 for allowed.
-		printf("Read block misalignment allowed?...%d\n\r",SDCardInfo->SD_csd.RdBlockMisalign);
+		printf("Read block misalignment allowed?...%d\n\r", SDCardInfo->SD_csd.RdBlockMisalign);
 		//SD_CSD[76:76]-->DSR_IMP:1bits. 1 for DSR implemented.
-		printf("DSR implemented?...%d\n\r",SDCardInfo->SD_csd.DSRImpl);
+		printf("DSR implemented?...%d\n\r", SDCardInfo->SD_csd.DSRImpl);
 		//SD_CSD[75:74]-->Reserved:2bits.
 		//SD_CSD[73:62]-->C_SIZE:12bits.
-		printf("C_Size:%d\n\r",SDCardInfo->SD_csd.DeviceSize);
+		printf("C_Size:%d\n\r", SDCardInfo->SD_csd.DeviceSize);
 		//SD_CSD[61:59]-->VDD_R_CURR_MIN:3bits.
-		printf("Max. read current@VDD min:0x%x\n\r",SDCardInfo->SD_csd.MaxRdCurrentVDDMin);
+		printf("Max. read current@VDD min:0x%x\n\r", SDCardInfo->SD_csd.MaxRdCurrentVDDMin);
 		//SD_CSD[61:59]-->VDD_R_CURR_MAX:3bits.
-		printf("Max. read current@VDD max:0x%x\n\r",SDCardInfo->SD_csd.MaxRdCurrentVDDMax);
+		printf("Max. read current@VDD max:0x%x\n\r", SDCardInfo->SD_csd.MaxRdCurrentVDDMax);
 		//SD_CSD[55:53]-->VDD_W_CURR_MIN:3bits.
-		printf("Max. write current@VDD min:0x%x\n\r",SDCardInfo->SD_csd.MaxWrCurrentVDDMin);
+		printf("Max. write current@VDD min:0x%x\n\r", SDCardInfo->SD_csd.MaxWrCurrentVDDMin);
 		//SD_CSD[52:50]-->VDD_W_CURR_MAX:3bits.
-		printf("Max. write current@VDD max:0x%x\n\r",SDCardInfo->SD_csd.MaxWrCurrentVDDMax);
+		printf("Max. write current@VDD max:0x%x\n\r", SDCardInfo->SD_csd.MaxWrCurrentVDDMax);
 		//SD_CSD[49:47]-->C_SIZE_MULT:3bits.
-		printf("Device size multiplier:%d\n\r",SDCardInfo->SD_csd.DeviceSizeMul);
+		printf("Device size multiplier:%d\n\r", SDCardInfo->SD_csd.DeviceSizeMul);
 		//SD_CSD[46:46]-->ERASE_BLK_EN:1bits.
 		//printf("Erase single block enable?..%d\n\r",SDCardInfo->SD_csd.
 		//SD_CSD[45:39]-->SECTOR_SIZE:7bits.	(by blocks)
 		//printf("Sector size:%d blocks.\n\r",SDCardInfo->SD_csd.
-		printf("Partial block write allowed?...%d\n\r",SDCardInfo->SD_csd.WriteBlockPaPartial);
+		printf("Partial block write allowed?...%d\n\r", SDCardInfo->SD_csd.WriteBlockPaPartial);
 
 
 	}
@@ -258,11 +257,11 @@ void SDIO_NVIC_Configuration(void)
 	NVIC_Init(&NVIC_InitStructure);
 }
 
-  /**
-   * @brief  DeInitializes the SDIO interface.
-   * @param  None
-   * @retval None
-   */
+/**
+ * @brief  DeInitializes the SDIO interface.
+ * @param  None
+ * @retval None
+ */
 void SD_LowLevel_DeInit(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
@@ -283,7 +282,7 @@ void SD_LowLevel_DeInit(void)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
-	
+
 	/*!< Configure PD.02 CMD line */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
@@ -314,8 +313,8 @@ void SD_LowLevel_Init(void)
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 
 	/*!< Configure SD_SPI_DETECT_PIN pin: SD Card detect pin */
-	// CD_SWITCH ’‚∏ˆ“˝Ω≈ «ª˙–µºÏ≤‚, ºÏ≤‚µƒ «»»≤Â∞Œ◊¥Ã¨. ◊Ó∫√ π”√ IO ø⁄÷–∂œºÏ≤‚;
-	// CD/DAT3  «µÁ∆¯ºÏ≤‚, ø…“‘¿˚”√»Ìº˛ºÏ≤‚”–ŒﬁSDø®≤Â»Î;
+	// CD_SWITCH Ëøô‰∏™ÂºïËÑöÊòØÊú∫Ê¢∞Ê£ÄÊµã, Ê£ÄÊµãÁöÑÊòØÁÉ≠ÊèíÊãîÁä∂ÊÄÅ. ÊúÄÂ•Ω‰ΩøÁî® IO Âè£‰∏≠Êñ≠Ê£ÄÊµã;
+	// CD/DAT3 ÊòØÁîµÊ∞îÊ£ÄÊµã, ÂèØ‰ª•Âà©Áî®ËΩØ‰ª∂Ê£ÄÊµãÊúâÊó†SDÂç°ÊèíÂÖ•;
 	GPIO_InitStructure.GPIO_Pin = SD_DETECT_PIN;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
 	GPIO_Init(SD_DETECT_GPIO_PORT, &GPIO_InitStructure);
@@ -325,7 +324,7 @@ void SD_LowLevel_Init(void)
 
 	/*!< Enable the DMA2 Clock */
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE);
-	
+
 	// SDIO interrupts configure
 	SDIO_NVIC_Configuration();
 }
@@ -441,18 +440,16 @@ SD_Error SD_Init(void)
 
 	errorstatus = SD_PowerON();
 
-	if (errorstatus != SD_OK)
-	{
+	if (errorstatus != SD_OK) {
 		/*!< CMD Response TimeOut (wait for CMDSENT flag) */
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	errorstatus = SD_InitializeCards();
 
-	if (errorstatus != SD_OK)
-	{
+	if (errorstatus != SD_OK) {
 		/*!< CMD Response TimeOut (wait for CMDSENT flag) */
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Configure the SDIO peripheral */
@@ -466,26 +463,23 @@ SD_Error SD_Init(void)
 	SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
 	SDIO_Init(&SDIO_InitStructure);
 
-	if (errorstatus == SD_OK)
-	{
+	if (errorstatus == SD_OK) {
 		/*----------------- Read CSD/CID MSD registers ------------------*/
 		errorstatus = SD_GetCardInfo(&SDCardInfo);
 		SD_ShowCID(&SDCardInfo);
 		SD_ShowCSD(&SDCardInfo);
 	}
 
-	if (errorstatus == SD_OK)
-	{
+	if (errorstatus == SD_OK) {
 		/*----------------- Select Card --------------------------------*/
 		errorstatus = SD_SelectDeselect((uint32_t) (SDCardInfo.RCA << 16));
 	}
 
-	if (errorstatus == SD_OK)
-	{
+	if (errorstatus == SD_OK) {
 		errorstatus = SD_EnableWideBusOperation(SDIO_BusWide_4b);
 	}
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -502,17 +496,14 @@ SDTransferState SD_GetStatus(void)
 
 	cardstate = SD_GetState();
 
-	if (cardstate == SD_CARD_TRANSFER)
-	{
-		return(SD_TRANSFER_OK);
+	if (cardstate == SD_CARD_TRANSFER) {
+		return (SD_TRANSFER_OK);
 	}
-	else if(cardstate == SD_CARD_ERROR)
-	{
+	else if (cardstate == SD_CARD_ERROR) {
 		return (SD_TRANSFER_ERROR);
 	}
-	else
-	{
-		return(SD_TRANSFER_BUSY);
+	else {
+		return (SD_TRANSFER_BUSY);
 	}
 }
 
@@ -525,25 +516,21 @@ SDCardState SD_GetState(void)
 {
 	uint32_t resp1 = 0;
 
-	if(SD_Detect()== SD_PRESENT)
-	{
-		if (SD_SendStatus(&resp1) != SD_OK)
-		{
+	if (SD_Detect() == SD_PRESENT) {
+		if (SD_SendStatus(&resp1) != SD_OK) {
 			return SD_CARD_ERROR;
 		}
-		else
-		{
+		else {
 			return (SDCardState)((resp1 >> 9) & 0x0F);
 		}
 	}
-	else
-	{
+	else {
 		return SD_CARD_ERROR;
 	}
 }
 
 /**
- * @brief  Detect if SD card is correctly plugged in the memory slot. 
+ * @brief  Detect if SD card is correctly plugged in the memory slot.
  * @param  None
  * @retval Return if SD is detected or not
  */
@@ -552,8 +539,7 @@ uint8_t SD_Detect(void)
 	__IO uint8_t status = SD_PRESENT;
 
 	/*!< Check GPIO to detect SD */
-	if (GPIO_ReadInputDataBit(SD_DETECT_GPIO_PORT, SD_DETECT_PIN) != Bit_RESET)
-	{
+	if (GPIO_ReadInputDataBit(SD_DETECT_GPIO_PORT, SD_DETECT_PIN) != Bit_RESET) {
 		status = SD_NOT_PRESENT;
 	}
 	return status;
@@ -601,10 +587,9 @@ SD_Error SD_PowerON(void)
 
 	errorstatus = CmdError();
 
-	if (errorstatus != SD_OK)
-	{
+	if (errorstatus != SD_OK) {
 		/*!< CMD Response TimeOut (wait for CMDSENT flag) */
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< CMD8: SEND_IF_COND ----------------------------------------------------*/
@@ -622,13 +607,11 @@ SD_Error SD_PowerON(void)
 
 	errorstatus = CmdResp7Error();
 
-	if (errorstatus == SD_OK)
-	{
+	if (errorstatus == SD_OK) {
 		CardType = SDIO_STD_CAPACITY_SD_CARD_V2_0; /*!< SD Card 2.0 */
 		SDType = SD_HIGH_CAPACITY;
 	}
-	else
-	{
+	else {
 		/*!< CMD55 */
 		SDIO_CmdInitStructure.SDIO_Argument = 0x00;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
@@ -650,12 +633,10 @@ SD_Error SD_PowerON(void)
 	/*!< If errorstatus is Command TimeOut, it is a MMC card */
 	/*!< If errorstatus is SD_OK it is a SD card: SD card 2.0 (voltage range mismatch)
 	  or SD card 1.x */
-	if (errorstatus == SD_OK)
-	{
+	if (errorstatus == SD_OK) {
 		/*!< SD CARD */
 		/*!< Send ACMD41 SD_APP_OP_COND with Argument 0x80100000 */
-		while ((!validvoltage) && (count < SD_MAX_VOLT_TRIAL))
-		{
+		while ((!validvoltage) && (count < SD_MAX_VOLT_TRIAL)) {
 
 			/*!< SEND CMD55 APP_CMD with RCA as 0 */
 			SDIO_CmdInitStructure.SDIO_Argument = 0x00;
@@ -667,9 +648,8 @@ SD_Error SD_PowerON(void)
 
 			errorstatus = CmdResp1Error(SD_CMD_APP_CMD);
 
-			if (errorstatus != SD_OK)
-			{
-				return(errorstatus);
+			if (errorstatus != SD_OK) {
+				return (errorstatus);
 			}
 			SDIO_CmdInitStructure.SDIO_Argument = SD_VOLTAGE_WINDOW_SD | SDType;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SD_APP_OP_COND;
@@ -679,29 +659,26 @@ SD_Error SD_PowerON(void)
 			SDIO_SendCommand(&SDIO_CmdInitStructure);
 
 			errorstatus = CmdResp3Error();
-			if (errorstatus != SD_OK)
-			{
-				return(errorstatus);
+			if (errorstatus != SD_OK) {
+				return (errorstatus);
 			}
 
 			response = SDIO_GetResponse(SDIO_RESP1);
 			validvoltage = (((response >> 31) == 1) ? 1 : 0);
 			count++;
 		}
-		if (count >= SD_MAX_VOLT_TRIAL)
-		{
+		if (count >= SD_MAX_VOLT_TRIAL) {
 			errorstatus = SD_INVALID_VOLTRANGE;
-			return(errorstatus);
+			return (errorstatus);
 		}
 
-		if (response &= SD_HIGH_CAPACITY)
-		{
+		if (response &= SD_HIGH_CAPACITY) {
 			CardType = SDIO_HIGH_CAPACITY_SD_CARD;
 		}
 
 	}/*!< else MMC Card */
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -716,7 +693,7 @@ SD_Error SD_PowerOFF(void)
 	/*!< Set Power State to OFF */
 	SDIO_SetPowerState(SDIO_PowerState_OFF);
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -730,14 +707,12 @@ SD_Error SD_InitializeCards(void)
 	SD_Error errorstatus = SD_OK;
 	uint16_t rca = 0x01;
 
-	if (SDIO_GetPowerState() == SDIO_PowerState_OFF)
-	{
+	if (SDIO_GetPowerState() == SDIO_PowerState_OFF) {
 		errorstatus = SD_REQUEST_NOT_APPLICABLE;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
-	if (SDIO_SECURE_DIGITAL_IO_CARD != CardType)
-	{
+	if (SDIO_SECURE_DIGITAL_IO_CARD != CardType) {
 		/*!< Send CMD2 ALL_SEND_CID */
 		SDIO_CmdInitStructure.SDIO_Argument = 0x0;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_ALL_SEND_CID;
@@ -748,9 +723,8 @@ SD_Error SD_InitializeCards(void)
 
 		errorstatus = CmdResp2Error();
 
-		if (SD_OK != errorstatus)
-		{
-			return(errorstatus);
+		if (SD_OK != errorstatus) {
+			return (errorstatus);
 		}
 
 		CID_Tab[0] = SDIO_GetResponse(SDIO_RESP1);
@@ -759,8 +733,7 @@ SD_Error SD_InitializeCards(void)
 		CID_Tab[3] = SDIO_GetResponse(SDIO_RESP4);
 	}
 	if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) ||  (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) ||  (SDIO_SECURE_DIGITAL_IO_COMBO_CARD == CardType)
-			||  (SDIO_HIGH_CAPACITY_SD_CARD == CardType))
-	{
+	    ||  (SDIO_HIGH_CAPACITY_SD_CARD == CardType)) {
 		/*!< Send CMD3 SET_REL_ADDR with argument 0 */
 		/*!< SD Card publishes its RCA. */
 		SDIO_CmdInitStructure.SDIO_Argument = 0x00;
@@ -772,14 +745,12 @@ SD_Error SD_InitializeCards(void)
 
 		errorstatus = CmdResp6Error(SD_CMD_SET_REL_ADDR, &rca);
 
-		if (SD_OK != errorstatus)
-		{
-			return(errorstatus);
+		if (SD_OK != errorstatus) {
+			return (errorstatus);
 		}
 	}
 
-	if (SDIO_SECURE_DIGITAL_IO_CARD != CardType)
-	{
+	if (SDIO_SECURE_DIGITAL_IO_CARD != CardType) {
 		RCA = rca;
 
 		/*!< Send CMD9 SEND_CSD with argument as card's RCA */
@@ -792,9 +763,8 @@ SD_Error SD_InitializeCards(void)
 
 		errorstatus = CmdResp2Error();
 
-		if (SD_OK != errorstatus)
-		{
-			return(errorstatus);
+		if (SD_OK != errorstatus) {
+			return (errorstatus);
 		}
 
 		CSD_Tab[0] = SDIO_GetResponse(SDIO_RESP1);
@@ -805,7 +775,7 @@ SD_Error SD_InitializeCards(void)
 
 	errorstatus = SD_OK; /*!< All cards get intialized */
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -857,8 +827,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo)
 	cardinfo->SD_csd.DSRImpl = (tmp & 0x10) >> 4;
 	cardinfo->SD_csd.Reserved2 = 0; /*!< Reserved */
 
-	if ((CardType == SDIO_STD_CAPACITY_SD_CARD_V1_1) || (CardType == SDIO_STD_CAPACITY_SD_CARD_V2_0))
-	{
+	if ((CardType == SDIO_STD_CAPACITY_SD_CARD_V1_1) || (CardType == SDIO_STD_CAPACITY_SD_CARD_V2_0)) {
 		cardinfo->SD_csd.DeviceSize = (tmp & 0x03) << 10;
 
 		/*!< Byte 7 */
@@ -886,8 +855,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo)
 		cardinfo->CardBlockSize = 1 << (cardinfo->SD_csd.RdBlockLen);
 		cardinfo->CardCapacity *= cardinfo->CardBlockSize;
 	}
-	else if (CardType == SDIO_HIGH_CAPACITY_SD_CARD)
-	{
+	else if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
 		/*!< Byte 7 */
 		tmp = (uint8_t)(CSD_Tab[1] & 0x000000FF);
 		cardinfo->SD_csd.DeviceSize = (tmp & 0x3F) << 16;
@@ -1013,7 +981,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo)
 	cardinfo->SD_cid.CID_CRC = (tmp & 0xFE) >> 1;
 	cardinfo->SD_cid.Reserved2 = 1;
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1033,9 +1001,8 @@ SD_Error SD_GetCardStatus(SD_CardStatus *cardstatus)
 
 	errorstatus = SD_SendSDStatus((uint32_t *)SDSTATUS_Tab);
 
-	if (errorstatus  != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus  != SD_OK) {
+		return (errorstatus);
 	}
 
 	/*!< Byte 0 */
@@ -1098,7 +1065,7 @@ SD_Error SD_GetCardStatus(SD_CardStatus *cardstatus)
 	tmp = (uint8_t)((SDSTATUS_Tab[13] & 0x3));
 	cardstatus->ERASE_OFFSET = tmp;
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1116,24 +1083,19 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode)
 	SD_Error errorstatus = SD_OK;
 
 	/*!< MMC Card doesn't support this feature */
-	if (SDIO_MULTIMEDIA_CARD == CardType)
-	{
+	if (SDIO_MULTIMEDIA_CARD == CardType) {
 		errorstatus = SD_UNSUPPORTED_FEATURE;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) || (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) || (SDIO_HIGH_CAPACITY_SD_CARD == CardType))
-	{
-		if (SDIO_BusWide_8b == WideMode)
-		{
+	else if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) || (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) || (SDIO_HIGH_CAPACITY_SD_CARD == CardType)) {
+		if (SDIO_BusWide_8b == WideMode) {
 			errorstatus = SD_UNSUPPORTED_FEATURE;
-			return(errorstatus);
+			return (errorstatus);
 		}
-		else if (SDIO_BusWide_4b == WideMode)
-		{
+		else if (SDIO_BusWide_4b == WideMode) {
 			errorstatus = SDEnWideBus(ENABLE);
 
-			if (SD_OK == errorstatus)
-			{
+			if (SD_OK == errorstatus) {
 				/*!< Configure the SDIO peripheral */
 				SDIO_InitStructure.SDIO_ClockDiv = SDIO_TRANSFER_CLK_DIV;
 				SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
@@ -1144,12 +1106,10 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode)
 				SDIO_Init(&SDIO_InitStructure);
 			}
 		}
-		else
-		{
+		else {
 			errorstatus = SDEnWideBus(DISABLE);
 
-			if (SD_OK == errorstatus)
-			{
+			if (SD_OK == errorstatus) {
 				/*!< Configure the SDIO peripheral */
 				SDIO_InitStructure.SDIO_ClockDiv = SDIO_TRANSFER_CLK_DIV;
 				SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
@@ -1162,7 +1122,7 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode)
 		}
 	}
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1184,7 +1144,7 @@ SD_Error SD_SelectDeselect(uint32_t addr)
 
 	errorstatus = CmdResp1Error(SD_CMD_SEL_DESEL_CARD);
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1215,8 +1175,7 @@ SD_Error SD_ReadBlock(uint8_t *readbuff, uint32_t ReadAddr, uint16_t BlockSize)
 	SDIO->DCTRL = 0x0;
 
 
-	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD)
-	{
+	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
 		BlockSize = 512;
 		ReadAddr /= 512;
 	}
@@ -1239,52 +1198,43 @@ SD_Error SD_ReadBlock(uint8_t *readbuff, uint32_t ReadAddr, uint16_t BlockSize)
 
 	errorstatus = CmdResp1Error(SD_CMD_READ_SINGLE_BLOCK);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 #if defined (SD_POLLING_MODE)
 	/*!< In case of single block transfer, no need of stop transfer at all.*/
 	/*!< Polling mode */
-	while (!(SDIO->STA &(SDIO_FLAG_RXOVERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_DBCKEND | SDIO_FLAG_STBITERR)))
-	{
-		if (SDIO_GetFlagStatus(SDIO_FLAG_RXFIFOHF) != RESET)
-		{
-			for (count = 0; count < 8; count++)
-			{
+	while (!(SDIO->STA & (SDIO_FLAG_RXOVERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_DBCKEND | SDIO_FLAG_STBITERR))) {
+		if (SDIO_GetFlagStatus(SDIO_FLAG_RXFIFOHF) != RESET) {
+			for (count = 0; count < 8; count++) {
 				*(tempbuff + count) = SDIO_ReadData();
 			}
 			tempbuff += 8;
 		}
 	}
 
-	if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET)
-	{
+	if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_DTIMEOUT);
 		errorstatus = SD_DATA_TIMEOUT;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_DCRCFAIL);
 		errorstatus = SD_DATA_CRC_FAIL;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_RXOVERR) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_RXOVERR) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_RXOVERR);
 		errorstatus = SD_RX_OVERRUN;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_STBITERR);
 		errorstatus = SD_START_BIT_ERR;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	while (SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET)
-	{
+	while (SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET) {
 		*tempbuff = SDIO_ReadData();
 		tempbuff++;
 	}
@@ -1298,7 +1248,7 @@ SD_Error SD_ReadBlock(uint8_t *readbuff, uint32_t ReadAddr, uint16_t BlockSize)
 	SD_LowLevel_DMA_RxConfig((uint32_t *)readbuff, BlockSize);
 #endif
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1325,8 +1275,7 @@ SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint32_t ReadAddr, uint16_t Block
 
 	SDIO->DCTRL = 0x0;
 
-	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD)
-	{
+	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
 		BlockSize = 512;
 		ReadAddr /= 512;
 	}
@@ -1341,9 +1290,8 @@ SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint32_t ReadAddr, uint16_t Block
 
 	errorstatus = CmdResp1Error(SD_CMD_SET_BLOCKLEN);
 
-	if (SD_OK != errorstatus)
-	{
-		return(errorstatus);
+	if (SD_OK != errorstatus) {
+		return (errorstatus);
 	}
 
 	SDIO_DataInitStructure.SDIO_DataTimeOut = SD_DATATIMEOUT;
@@ -1364,16 +1312,15 @@ SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint32_t ReadAddr, uint16_t Block
 
 	errorstatus = CmdResp1Error(SD_CMD_READ_MULT_BLOCK);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 	SDIO_ITConfig(SDIO_IT_DATAEND, ENABLE);
 	SDIO_DMACmd(ENABLE);
 	SD_LowLevel_DMA_RxConfig((uint32_t *)readbuff, (NumberOfBlocks * BlockSize));
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1391,12 +1338,11 @@ SD_Error SD_WaitReadOperation(void)
 	while ((SD_DMAEndOfTransferStatus() == RESET) && (TransferEnd == 0) && (TransferError == SD_OK))
 	{}
 
-	if (TransferError != SD_OK)
-	{
-		return(TransferError);
+	if (TransferError != SD_OK) {
+		return (TransferError);
 	}
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1429,8 +1375,7 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSiz
 	SDIO->DCTRL = 0x0;
 
 
-	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD)
-	{
+	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
 		BlockSize = 512;
 		WriteAddr /= 512;
 	}
@@ -1445,9 +1390,8 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSiz
 
 	errorstatus = CmdResp1Error(SD_CMD_WRITE_SINGLE_BLOCK);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 	SDIO_DataInitStructure.SDIO_DataTimeOut = SD_DATATIMEOUT;
@@ -1460,22 +1404,16 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSiz
 
 	/*!< In case of single data block transfer no need of stop command at all */
 #if defined (SD_POLLING_MODE)
-	while (!(SDIO->STA & (SDIO_FLAG_DBCKEND | SDIO_FLAG_TXUNDERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_STBITERR)))
-	{
-		if (SDIO_GetFlagStatus(SDIO_FLAG_TXFIFOHE) != RESET)
-		{
-			if ((512 - bytestransferred) < 32)
-			{
+	while (!(SDIO->STA & (SDIO_FLAG_DBCKEND | SDIO_FLAG_TXUNDERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_STBITERR))) {
+		if (SDIO_GetFlagStatus(SDIO_FLAG_TXFIFOHE) != RESET) {
+			if ((512 - bytestransferred) < 32) {
 				restwords = ((512 - bytestransferred) % 4 == 0) ? ((512 - bytestransferred) / 4) : (( 512 -  bytestransferred) / 4 + 1);
-				for (count = 0; count < restwords; count++, tempbuff++, bytestransferred += 4)
-				{
+				for (count = 0; count < restwords; count++, tempbuff++, bytestransferred += 4) {
 					SDIO_WriteData(*tempbuff);
 				}
 			}
-			else
-			{
-				for (count = 0; count < 8; count++)
-				{
+			else {
+				for (count = 0; count < 8; count++) {
 					SDIO_WriteData(*(tempbuff + count));
 				}
 				tempbuff += 8;
@@ -1483,29 +1421,25 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSiz
 			}
 		}
 	}
-	if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET)
-	{
+	if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_DTIMEOUT);
 		errorstatus = SD_DATA_TIMEOUT;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_DCRCFAIL);
 		errorstatus = SD_DATA_CRC_FAIL;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_TXUNDERR) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_TXUNDERR) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_TXUNDERR);
 		errorstatus = SD_TX_UNDERRUN;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_STBITERR);
 		errorstatus = SD_START_BIT_ERR;
-		return(errorstatus);
+		return (errorstatus);
 	}
 #elif defined (SD_DMA_MODE)
 	SDIO_ITConfig(SDIO_IT_DATAEND, ENABLE);
@@ -1513,7 +1447,7 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSiz
 	SDIO_DMACmd(ENABLE);
 #endif
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1542,8 +1476,7 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t Bl
 
 	SDIO->DCTRL = 0x0;
 
-	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD)
-	{
+	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
 		BlockSize = 512;
 		WriteAddr /= 512;
 	}
@@ -1559,9 +1492,8 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t Bl
 
 	errorstatus = CmdResp1Error(SD_CMD_APP_CMD);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 	/*!< To improve performance */
 	SDIO_CmdInitStructure.SDIO_Argument = (uint32_t)NumberOfBlocks;
@@ -1573,9 +1505,8 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t Bl
 
 	errorstatus = CmdResp1Error(SD_CMD_SET_BLOCK_COUNT);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 
@@ -1589,9 +1520,8 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t Bl
 
 	errorstatus = CmdResp1Error(SD_CMD_WRITE_MULT_BLOCK);
 
-	if (SD_OK != errorstatus)
-	{
-		return(errorstatus);
+	if (SD_OK != errorstatus) {
+		return (errorstatus);
 	}
 
 	SDIO_DataInitStructure.SDIO_DataTimeOut = SD_DATATIMEOUT;
@@ -1606,7 +1536,7 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t Bl
 	SDIO_DMACmd(ENABLE);
 	SD_LowLevel_DMA_TxConfig((uint32_t *)writebuff, (NumberOfBlocks * BlockSize));
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1624,15 +1554,14 @@ SD_Error SD_WaitWriteOperation(void)
 	while ((SD_DMAEndOfTransferStatus() == RESET) && (TransferEnd == 0) && (TransferError == SD_OK))
 	{}
 
-	if (TransferError != SD_OK)
-	{
-		return(TransferError);
+	if (TransferError != SD_OK) {
+		return (TransferError);
 	}
 
 	/*!< Clear all the static flags */
 	SDIO_ClearFlag(SDIO_STATIC_FLAGS);
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1645,13 +1574,11 @@ SD_Error SD_WaitWriteOperation(void)
  */
 SDTransferState SD_GetTransferState(void)
 {
-	if (SDIO->STA & (SDIO_FLAG_TXACT | SDIO_FLAG_RXACT))
-	{
-		return(SD_TRANSFER_BUSY);
+	if (SDIO->STA & (SDIO_FLAG_TXACT | SDIO_FLAG_RXACT)) {
+		return (SD_TRANSFER_BUSY);
 	}
-	else
-	{
-		return(SD_TRANSFER_OK);
+	else {
+		return (SD_TRANSFER_OK);
 	}
 }
 
@@ -1669,7 +1596,7 @@ SD_Error SD_StopTransfer(void)
 	SDIO->CMD = 0x44C;
 	errorstatus = CmdResp1Error(SD_CMD_STOP_TRANSMISSION);
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1686,29 +1613,25 @@ SD_Error SD_Erase(uint32_t startaddr, uint32_t endaddr)
 	uint8_t cardstate = 0;
 
 	/*!< Check if the card coomnd class supports erase command */
-	if (((CSD_Tab[1] >> 20) & SD_CCCC_ERASE) == 0)
-	{
+	if (((CSD_Tab[1] >> 20) & SD_CCCC_ERASE) == 0) {
 		errorstatus = SD_REQUEST_NOT_APPLICABLE;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	maxdelay = 120000 / ((SDIO->CLKCR & 0xFF) + 2);
 
-	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED)
-	{
+	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED) {
 		errorstatus = SD_LOCK_UNLOCK_FAILED;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
-	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD)
-	{
+	if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
 		startaddr /= 512;
 		endaddr /= 512;
 	}
 
 	/*!< According to sd-card spec 1.0 ERASE_GROUP_START (CMD32) and erase_group_end(CMD33) */
-	if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) || (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) || (SDIO_HIGH_CAPACITY_SD_CARD == CardType))
-	{
+	if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) || (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) || (SDIO_HIGH_CAPACITY_SD_CARD == CardType)) {
 		/*!< Send CMD32 SD_ERASE_GRP_START with argument as addr  */
 		SDIO_CmdInitStructure.SDIO_Argument = startaddr;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SD_ERASE_GRP_START;
@@ -1718,9 +1641,8 @@ SD_Error SD_Erase(uint32_t startaddr, uint32_t endaddr)
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
 
 		errorstatus = CmdResp1Error(SD_CMD_SD_ERASE_GRP_START);
-		if (errorstatus != SD_OK)
-		{
-			return(errorstatus);
+		if (errorstatus != SD_OK) {
+			return (errorstatus);
 		}
 
 		/*!< Send CMD33 SD_ERASE_GRP_END with argument as addr  */
@@ -1732,9 +1654,8 @@ SD_Error SD_Erase(uint32_t startaddr, uint32_t endaddr)
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
 
 		errorstatus = CmdResp1Error(SD_CMD_SD_ERASE_GRP_END);
-		if (errorstatus != SD_OK)
-		{
-			return(errorstatus);
+		if (errorstatus != SD_OK) {
+			return (errorstatus);
 		}
 	}
 
@@ -1748,9 +1669,8 @@ SD_Error SD_Erase(uint32_t startaddr, uint32_t endaddr)
 
 	errorstatus = CmdResp1Error(SD_CMD_ERASE);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 	for (delay = 0; delay < maxdelay; delay++)
@@ -1759,12 +1679,11 @@ SD_Error SD_Erase(uint32_t startaddr, uint32_t endaddr)
 	/*!< Wait till the card is in programming state */
 	errorstatus = IsCardProgramming(&cardstate);
 
-	while ((errorstatus == SD_OK) && ((SD_CARD_PROGRAMMING == cardstate) || (SD_CARD_RECEIVING == cardstate)))
-	{
+	while ((errorstatus == SD_OK) && ((SD_CARD_PROGRAMMING == cardstate) || (SD_CARD_RECEIVING == cardstate))) {
 		errorstatus = IsCardProgramming(&cardstate);
 	}
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1782,13 +1701,12 @@ SD_Error SD_SendStatus(uint32_t *pcardstatus)
 
 	errorstatus = CmdResp1Error(SD_CMD_SEND_STATUS);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 	*pcardstatus = SDIO->RESP1;
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1802,10 +1720,9 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
 	SD_Error errorstatus = SD_OK;
 	uint32_t count = 0;
 
-	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED)
-	{
+	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED) {
 		errorstatus = SD_LOCK_UNLOCK_FAILED;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Set block size for card if it is not equal to current block size for card. */
@@ -1818,9 +1735,8 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
 
 	errorstatus = CmdResp1Error(SD_CMD_SET_BLOCKLEN);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 	/*!< CMD55 */
@@ -1832,9 +1748,8 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
 	SDIO_SendCommand(&SDIO_CmdInitStructure);
 	errorstatus = CmdResp1Error(SD_CMD_APP_CMD);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 	SDIO_DataInitStructure.SDIO_DataTimeOut = SD_DATATIMEOUT;
@@ -1854,50 +1769,41 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
 	SDIO_SendCommand(&SDIO_CmdInitStructure);
 	errorstatus = CmdResp1Error(SD_CMD_SD_APP_STAUS);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
-	while (!(SDIO->STA &(SDIO_FLAG_RXOVERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_DBCKEND | SDIO_FLAG_STBITERR)))
-	{
-		if (SDIO_GetFlagStatus(SDIO_FLAG_RXFIFOHF) != RESET)
-		{
-			for (count = 0; count < 8; count++)
-			{
+	while (!(SDIO->STA & (SDIO_FLAG_RXOVERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_DBCKEND | SDIO_FLAG_STBITERR))) {
+		if (SDIO_GetFlagStatus(SDIO_FLAG_RXFIFOHF) != RESET) {
+			for (count = 0; count < 8; count++) {
 				*(psdstatus + count) = SDIO_ReadData();
 			}
 			psdstatus += 8;
 		}
 	}
 
-	if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET)
-	{
+	if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_DTIMEOUT);
 		errorstatus = SD_DATA_TIMEOUT;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_DCRCFAIL);
 		errorstatus = SD_DATA_CRC_FAIL;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_RXOVERR) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_RXOVERR) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_RXOVERR);
 		errorstatus = SD_RX_OVERRUN;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_STBITERR);
 		errorstatus = SD_START_BIT_ERR;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
-	while (SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET)
-	{
+	while (SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET) {
 		*psdstatus = SDIO_ReadData();
 		psdstatus++;
 	}
@@ -1905,7 +1811,7 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
 	/*!< Clear all the static status flags*/
 	SDIO_ClearFlag(SDIO_STATIC_FLAGS);
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1915,20 +1821,18 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
  */
 SD_Error SD_ProcessIRQSrc(void)
 {
-	if (StopCondition == 1)
-	{
+	if (StopCondition == 1) {
 		SDIO->ARG = 0x0;
 		SDIO->CMD = 0x44C;
 		TransferError = CmdResp1Error(SD_CMD_STOP_TRANSMISSION);
 	}
-	else
-	{
+	else {
 		TransferError = SD_OK;
 	}
 	SDIO_ClearITPendingBit(SDIO_IT_DATAEND);
 	SDIO_ITConfig(SDIO_IT_DATAEND, DISABLE);
 	TransferEnd = 1;
-	return(TransferError);
+	return (TransferError);
 }
 
 /**
@@ -1943,21 +1847,19 @@ static SD_Error CmdError(void)
 
 	timeout = SDIO_CMD0TIMEOUT; /*!< 10000 */
 
-	while ((timeout > 0) && (SDIO_GetFlagStatus(SDIO_FLAG_CMDSENT) == RESET))
-	{
+	while ((timeout > 0) && (SDIO_GetFlagStatus(SDIO_FLAG_CMDSENT) == RESET)) {
 		timeout--;
 	}
 
-	if (timeout == 0)
-	{
+	if (timeout == 0) {
 		errorstatus = SD_CMD_RSP_TIMEOUT;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Clear all the static flags */
 	SDIO_ClearFlag(SDIO_STATIC_FLAGS);
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -1973,28 +1875,25 @@ static SD_Error CmdResp7Error(void)
 
 	status = SDIO->STA;
 
-	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CMDREND | SDIO_FLAG_CTIMEOUT)) && (timeout > 0))
-	{
+	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CMDREND | SDIO_FLAG_CTIMEOUT)) && (timeout > 0)) {
 		timeout--;
 		status = SDIO->STA;
 	}
 
-	if ((timeout == 0) || (status & SDIO_FLAG_CTIMEOUT))
-	{
+	if ((timeout == 0) || (status & SDIO_FLAG_CTIMEOUT)) {
 		/*!< Card is not V2.0 complient or card does not support the set voltage range */
 		errorstatus = SD_CMD_RSP_TIMEOUT;
 		SDIO_ClearFlag(SDIO_FLAG_CTIMEOUT);
-		return(errorstatus);
+		return (errorstatus);
 	}
 
-	if (status & SDIO_FLAG_CMDREND)
-	{
+	if (status & SDIO_FLAG_CMDREND) {
 		/*!< Card is SD V2.0 compliant */
 		errorstatus = SD_OK;
 		SDIO_ClearFlag(SDIO_FLAG_CMDREND);
-		return(errorstatus);
+		return (errorstatus);
 	}
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -2004,8 +1903,7 @@ static SD_Error CmdResp7Error(void)
  */
 static SD_Error CmdResp1Error(uint8_t cmd)
 {
-	while (!(SDIO->STA & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CMDREND | SDIO_FLAG_CTIMEOUT)))
-	{
+	while (!(SDIO->STA & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CMDREND | SDIO_FLAG_CTIMEOUT))) {
 	}
 
 	SDIO->ICR = SDIO_STATIC_FLAGS;
@@ -2025,20 +1923,18 @@ static SD_Error CmdResp3Error(void)
 
 	status = SDIO->STA;
 
-	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CMDREND | SDIO_FLAG_CTIMEOUT)))
-	{
+	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CMDREND | SDIO_FLAG_CTIMEOUT))) {
 		status = SDIO->STA;
 	}
 
-	if (status & SDIO_FLAG_CTIMEOUT)
-	{
+	if (status & SDIO_FLAG_CTIMEOUT) {
 		errorstatus = SD_CMD_RSP_TIMEOUT;
 		SDIO_ClearFlag(SDIO_FLAG_CTIMEOUT);
-		return(errorstatus);
+		return (errorstatus);
 	}
 	/*!< Clear all the static flags */
 	SDIO_ClearFlag(SDIO_STATIC_FLAGS);
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -2053,28 +1949,25 @@ static SD_Error CmdResp2Error(void)
 
 	status = SDIO->STA;
 
-	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CTIMEOUT | SDIO_FLAG_CMDREND)))
-	{
+	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CTIMEOUT | SDIO_FLAG_CMDREND))) {
 		status = SDIO->STA;
 	}
 
-	if (status & SDIO_FLAG_CTIMEOUT)
-	{
+	if (status & SDIO_FLAG_CTIMEOUT) {
 		errorstatus = SD_CMD_RSP_TIMEOUT;
 		SDIO_ClearFlag(SDIO_FLAG_CTIMEOUT);
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (status & SDIO_FLAG_CCRCFAIL)
-	{
+	else if (status & SDIO_FLAG_CCRCFAIL) {
 		errorstatus = SD_CMD_CRC_FAIL;
 		SDIO_ClearFlag(SDIO_FLAG_CCRCFAIL);
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Clear all the static flags */
 	SDIO_ClearFlag(SDIO_STATIC_FLAGS);
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -2092,29 +1985,25 @@ static SD_Error CmdResp6Error(uint8_t cmd, uint16_t *prca)
 
 	status = SDIO->STA;
 
-	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CTIMEOUT | SDIO_FLAG_CMDREND)))
-	{
+	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CTIMEOUT | SDIO_FLAG_CMDREND))) {
 		status = SDIO->STA;
 	}
 
-	if (status & SDIO_FLAG_CTIMEOUT)
-	{
+	if (status & SDIO_FLAG_CTIMEOUT) {
 		errorstatus = SD_CMD_RSP_TIMEOUT;
 		SDIO_ClearFlag(SDIO_FLAG_CTIMEOUT);
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (status & SDIO_FLAG_CCRCFAIL)
-	{
+	else if (status & SDIO_FLAG_CCRCFAIL) {
 		errorstatus = SD_CMD_CRC_FAIL;
 		SDIO_ClearFlag(SDIO_FLAG_CCRCFAIL);
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Check response received is of desired command */
-	if (SDIO_GetCommandResponse() != cmd)
-	{
+	if (SDIO_GetCommandResponse() != cmd) {
 		errorstatus = SD_ILLEGAL_CMD;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Clear all the static flags */
@@ -2123,28 +2012,24 @@ static SD_Error CmdResp6Error(uint8_t cmd, uint16_t *prca)
 	/*!< We have received response, retrieve it.  */
 	response_r1 = SDIO_GetResponse(SDIO_RESP1);
 
-	if (SD_ALLZERO == (response_r1 & (SD_R6_GENERAL_UNKNOWN_ERROR | SD_R6_ILLEGAL_CMD | SD_R6_COM_CRC_FAILED)))
-	{
+	if (SD_ALLZERO == (response_r1 & (SD_R6_GENERAL_UNKNOWN_ERROR | SD_R6_ILLEGAL_CMD | SD_R6_COM_CRC_FAILED))) {
 		*prca = (uint16_t) (response_r1 >> 16);
-		return(errorstatus);
+		return (errorstatus);
 	}
 
-	if (response_r1 & SD_R6_GENERAL_UNKNOWN_ERROR)
-	{
-		return(SD_GENERAL_UNKNOWN_ERROR);
+	if (response_r1 & SD_R6_GENERAL_UNKNOWN_ERROR) {
+		return (SD_GENERAL_UNKNOWN_ERROR);
 	}
 
-	if (response_r1 & SD_R6_ILLEGAL_CMD)
-	{
-		return(SD_ILLEGAL_CMD);
+	if (response_r1 & SD_R6_ILLEGAL_CMD) {
+		return (SD_ILLEGAL_CMD);
 	}
 
-	if (response_r1 & SD_R6_COM_CRC_FAILED)
-	{
-		return(SD_COM_CRC_FAILED);
+	if (response_r1 & SD_R6_COM_CRC_FAILED) {
+		return (SD_COM_CRC_FAILED);
 	}
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -2159,26 +2044,22 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 
 	uint32_t scr[2] = {0, 0};
 
-	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED)
-	{
+	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED) {
 		errorstatus = SD_LOCK_UNLOCK_FAILED;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Get SCR Register */
 	errorstatus = FindSCR(RCA, scr);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 	/*!< If wide bus operation to be enabled */
-	if (NewState == ENABLE)
-	{
+	if (NewState == ENABLE) {
 		/*!< If requested card supports wide bus operation */
-		if ((scr[1] & SD_WIDE_BUS_SUPPORT) != SD_ALLZERO)
-		{
+		if ((scr[1] & SD_WIDE_BUS_SUPPORT) != SD_ALLZERO) {
 			/*!< Send CMD55 APP_CMD with argument as card's RCA.*/
 			SDIO_CmdInitStructure.SDIO_Argument = (uint32_t) RCA << 16;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
@@ -2189,9 +2070,8 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 
 			errorstatus = CmdResp1Error(SD_CMD_APP_CMD);
 
-			if (errorstatus != SD_OK)
-			{
-				return(errorstatus);
+			if (errorstatus != SD_OK) {
+				return (errorstatus);
 			}
 
 			/*!< Send ACMD6 APP_CMD with argument as 2 for wide bus mode */
@@ -2204,23 +2084,19 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 
 			errorstatus = CmdResp1Error(SD_CMD_APP_SD_SET_BUSWIDTH);
 
-			if (errorstatus != SD_OK)
-			{
-				return(errorstatus);
+			if (errorstatus != SD_OK) {
+				return (errorstatus);
 			}
-			return(errorstatus);
+			return (errorstatus);
 		}
-		else
-		{
+		else {
 			errorstatus = SD_REQUEST_NOT_APPLICABLE;
-			return(errorstatus);
+			return (errorstatus);
 		}
 	}   /*!< If wide bus operation to be disabled */
-	else
-	{
+	else {
 		/*!< If requested card supports 1 bit mode operation */
-		if ((scr[1] & SD_SINGLE_BUS_SUPPORT) != SD_ALLZERO)
-		{
+		if ((scr[1] & SD_SINGLE_BUS_SUPPORT) != SD_ALLZERO) {
 			/*!< Send CMD55 APP_CMD with argument as card's RCA.*/
 			SDIO_CmdInitStructure.SDIO_Argument = (uint32_t) RCA << 16;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
@@ -2232,9 +2108,8 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 
 			errorstatus = CmdResp1Error(SD_CMD_APP_CMD);
 
-			if (errorstatus != SD_OK)
-			{
-				return(errorstatus);
+			if (errorstatus != SD_OK) {
+				return (errorstatus);
 			}
 
 			/*!< Send ACMD6 APP_CMD with argument as 2 for wide bus mode */
@@ -2247,17 +2122,15 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 
 			errorstatus = CmdResp1Error(SD_CMD_APP_SD_SET_BUSWIDTH);
 
-			if (errorstatus != SD_OK)
-			{
-				return(errorstatus);
+			if (errorstatus != SD_OK) {
+				return (errorstatus);
 			}
 
-			return(errorstatus);
+			return (errorstatus);
 		}
-		else
-		{
+		else {
 			errorstatus = SD_REQUEST_NOT_APPLICABLE;
-			return(errorstatus);
+			return (errorstatus);
 		}
 	}
 }
@@ -2280,31 +2153,27 @@ static SD_Error IsCardProgramming(uint8_t *pstatus)
 	SDIO_SendCommand(&SDIO_CmdInitStructure);
 
 	status = SDIO->STA;
-	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CMDREND | SDIO_FLAG_CTIMEOUT)))
-	{
+	while (!(status & (SDIO_FLAG_CCRCFAIL | SDIO_FLAG_CMDREND | SDIO_FLAG_CTIMEOUT))) {
 		status = SDIO->STA;
 	}
 
-	if (status & SDIO_FLAG_CTIMEOUT)
-	{
+	if (status & SDIO_FLAG_CTIMEOUT) {
 		errorstatus = SD_CMD_RSP_TIMEOUT;
 		SDIO_ClearFlag(SDIO_FLAG_CTIMEOUT);
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (status & SDIO_FLAG_CCRCFAIL)
-	{
+	else if (status & SDIO_FLAG_CCRCFAIL) {
 		errorstatus = SD_CMD_CRC_FAIL;
 		SDIO_ClearFlag(SDIO_FLAG_CCRCFAIL);
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	status = (uint32_t)SDIO_GetCommandResponse();
 
 	/*!< Check response received is of desired command */
-	if (status != SD_CMD_SEND_STATUS)
-	{
+	if (status != SD_CMD_SEND_STATUS) {
 		errorstatus = SD_ILLEGAL_CMD;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Clear all the static flags */
@@ -2317,107 +2186,87 @@ static SD_Error IsCardProgramming(uint8_t *pstatus)
 	/*!< Find out card status */
 	*pstatus = (uint8_t) ((respR1 >> 9) & 0x0000000F);
 
-	if ((respR1 & SD_OCR_ERRORBITS) == SD_ALLZERO)
-	{
-		return(errorstatus);
+	if ((respR1 & SD_OCR_ERRORBITS) == SD_ALLZERO) {
+		return (errorstatus);
 	}
 
-	if (respR1 & SD_OCR_ADDR_OUT_OF_RANGE)
-	{
-		return(SD_ADDR_OUT_OF_RANGE);
+	if (respR1 & SD_OCR_ADDR_OUT_OF_RANGE) {
+		return (SD_ADDR_OUT_OF_RANGE);
 	}
 
-	if (respR1 & SD_OCR_ADDR_MISALIGNED)
-	{
-		return(SD_ADDR_MISALIGNED);
+	if (respR1 & SD_OCR_ADDR_MISALIGNED) {
+		return (SD_ADDR_MISALIGNED);
 	}
 
-	if (respR1 & SD_OCR_BLOCK_LEN_ERR)
-	{
-		return(SD_BLOCK_LEN_ERR);
+	if (respR1 & SD_OCR_BLOCK_LEN_ERR) {
+		return (SD_BLOCK_LEN_ERR);
 	}
 
-	if (respR1 & SD_OCR_ERASE_SEQ_ERR)
-	{
-		return(SD_ERASE_SEQ_ERR);
+	if (respR1 & SD_OCR_ERASE_SEQ_ERR) {
+		return (SD_ERASE_SEQ_ERR);
 	}
 
-	if (respR1 & SD_OCR_BAD_ERASE_PARAM)
-	{
-		return(SD_BAD_ERASE_PARAM);
+	if (respR1 & SD_OCR_BAD_ERASE_PARAM) {
+		return (SD_BAD_ERASE_PARAM);
 	}
 
-	if (respR1 & SD_OCR_WRITE_PROT_VIOLATION)
-	{
-		return(SD_WRITE_PROT_VIOLATION);
+	if (respR1 & SD_OCR_WRITE_PROT_VIOLATION) {
+		return (SD_WRITE_PROT_VIOLATION);
 	}
 
-	if (respR1 & SD_OCR_LOCK_UNLOCK_FAILED)
-	{
-		return(SD_LOCK_UNLOCK_FAILED);
+	if (respR1 & SD_OCR_LOCK_UNLOCK_FAILED) {
+		return (SD_LOCK_UNLOCK_FAILED);
 	}
 
-	if (respR1 & SD_OCR_COM_CRC_FAILED)
-	{
-		return(SD_COM_CRC_FAILED);
+	if (respR1 & SD_OCR_COM_CRC_FAILED) {
+		return (SD_COM_CRC_FAILED);
 	}
 
-	if (respR1 & SD_OCR_ILLEGAL_CMD)
-	{
-		return(SD_ILLEGAL_CMD);
+	if (respR1 & SD_OCR_ILLEGAL_CMD) {
+		return (SD_ILLEGAL_CMD);
 	}
 
-	if (respR1 & SD_OCR_CARD_ECC_FAILED)
-	{
-		return(SD_CARD_ECC_FAILED);
+	if (respR1 & SD_OCR_CARD_ECC_FAILED) {
+		return (SD_CARD_ECC_FAILED);
 	}
 
-	if (respR1 & SD_OCR_CC_ERROR)
-	{
-		return(SD_CC_ERROR);
+	if (respR1 & SD_OCR_CC_ERROR) {
+		return (SD_CC_ERROR);
 	}
 
-	if (respR1 & SD_OCR_GENERAL_UNKNOWN_ERROR)
-	{
-		return(SD_GENERAL_UNKNOWN_ERROR);
+	if (respR1 & SD_OCR_GENERAL_UNKNOWN_ERROR) {
+		return (SD_GENERAL_UNKNOWN_ERROR);
 	}
 
-	if (respR1 & SD_OCR_STREAM_READ_UNDERRUN)
-	{
-		return(SD_STREAM_READ_UNDERRUN);
+	if (respR1 & SD_OCR_STREAM_READ_UNDERRUN) {
+		return (SD_STREAM_READ_UNDERRUN);
 	}
 
-	if (respR1 & SD_OCR_STREAM_WRITE_OVERRUN)
-	{
-		return(SD_STREAM_WRITE_OVERRUN);
+	if (respR1 & SD_OCR_STREAM_WRITE_OVERRUN) {
+		return (SD_STREAM_WRITE_OVERRUN);
 	}
 
-	if (respR1 & SD_OCR_CID_CSD_OVERWRIETE)
-	{
-		return(SD_CID_CSD_OVERWRITE);
+	if (respR1 & SD_OCR_CID_CSD_OVERWRIETE) {
+		return (SD_CID_CSD_OVERWRITE);
 	}
 
-	if (respR1 & SD_OCR_WP_ERASE_SKIP)
-	{
-		return(SD_WP_ERASE_SKIP);
+	if (respR1 & SD_OCR_WP_ERASE_SKIP) {
+		return (SD_WP_ERASE_SKIP);
 	}
 
-	if (respR1 & SD_OCR_CARD_ECC_DISABLED)
-	{
-		return(SD_CARD_ECC_DISABLED);
+	if (respR1 & SD_OCR_CARD_ECC_DISABLED) {
+		return (SD_CARD_ECC_DISABLED);
 	}
 
-	if (respR1 & SD_OCR_ERASE_RESET)
-	{
-		return(SD_ERASE_RESET);
+	if (respR1 & SD_OCR_ERASE_RESET) {
+		return (SD_ERASE_RESET);
 	}
 
-	if (respR1 & SD_OCR_AKE_SEQ_ERROR)
-	{
-		return(SD_AKE_SEQ_ERROR);
+	if (respR1 & SD_OCR_AKE_SEQ_ERROR) {
+		return (SD_AKE_SEQ_ERROR);
 	}
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -2443,9 +2292,8 @@ static SD_Error FindSCR(uint16_t rca, uint32_t *pscr)
 
 	errorstatus = CmdResp1Error(SD_CMD_SET_BLOCKLEN);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
 	/*!< Send CMD55 APP_CMD with argument as card's RCA */
@@ -2458,9 +2306,8 @@ static SD_Error FindSCR(uint16_t rca, uint32_t *pscr)
 
 	errorstatus = CmdResp1Error(SD_CMD_APP_CMD);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 	SDIO_DataInitStructure.SDIO_DataTimeOut = SD_DATATIMEOUT;
 	SDIO_DataInitStructure.SDIO_DataLength = 8;
@@ -2481,43 +2328,36 @@ static SD_Error FindSCR(uint16_t rca, uint32_t *pscr)
 
 	errorstatus = CmdResp1Error(SD_CMD_SD_APP_SEND_SCR);
 
-	if (errorstatus != SD_OK)
-	{
-		return(errorstatus);
+	if (errorstatus != SD_OK) {
+		return (errorstatus);
 	}
 
-	while (!(SDIO->STA & (SDIO_FLAG_RXOVERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_DBCKEND | SDIO_FLAG_STBITERR)))
-	{
-		if (SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET)
-		{
+	while (!(SDIO->STA & (SDIO_FLAG_RXOVERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_DBCKEND | SDIO_FLAG_STBITERR))) {
+		if (SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET) {
 			*(tempscr + index) = SDIO_ReadData();
 			index++;
 		}
 	}
 
-	if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET)
-	{
+	if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_DTIMEOUT);
 		errorstatus = SD_DATA_TIMEOUT;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_DCRCFAIL);
 		errorstatus = SD_DATA_CRC_FAIL;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_RXOVERR) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_RXOVERR) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_RXOVERR);
 		errorstatus = SD_RX_OVERRUN;
-		return(errorstatus);
+		return (errorstatus);
 	}
-	else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET)
-	{
+	else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET) {
 		SDIO_ClearFlag(SDIO_FLAG_STBITERR);
 		errorstatus = SD_START_BIT_ERR;
-		return(errorstatus);
+		return (errorstatus);
 	}
 
 	/*!< Clear all the static flags */
@@ -2527,7 +2367,7 @@ static SD_Error FindSCR(uint16_t rca, uint32_t *pscr)
 
 	*(pscr) = ((tempscr[1] & SD_0TO7BITS) << 24) | ((tempscr[1] & SD_8TO15BITS) << 8) | ((tempscr[1] & SD_16TO23BITS) >> 8) | ((tempscr[1] & SD_24TO31BITS) >> 24);
 
-	return(errorstatus);
+	return (errorstatus);
 }
 
 /**
@@ -2539,12 +2379,11 @@ uint8_t convert_from_bytes_to_power_of_two(uint16_t NumberOfBytes)
 {
 	uint8_t count = 0;
 
-	while (NumberOfBytes != 1)
-	{
+	while (NumberOfBytes != 1) {
 		NumberOfBytes >>= 1;
 		count++;
 	}
-	return(count);
+	return (count);
 }
 
 /**

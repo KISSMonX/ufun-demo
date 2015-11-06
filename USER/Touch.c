@@ -5,22 +5,22 @@ static void Touch_LED_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO, ENABLE);
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  //GPIO_Mode_Out_PP;// GPIO_Mode_AF_PP
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
 
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-  /* GPIOA clock enable */
+	/* GPIOA clock enable */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	
+
 	GPIO_SetBits(GPIOA, GPIO_Pin_3);
 }
 
 void Control_Touch_LED(unsigned char value)
 {
-	if (value) {	
+	if (value) {
 		GPIO_ResetBits(GPIOA, GPIO_Pin_3);
 	}
 	else {
@@ -33,18 +33,18 @@ void Control_Touch_LED(unsigned char value)
 void Touch_Key_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE);       
-  GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable,ENABLE);      
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE);
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
 
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-  GPIO_Init(GPIOB,&GPIO_InitStructure);
-	
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE); 
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-  GPIO_Init(GPIOC,&GPIO_InitStructure);
-	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
+
 }
 
 void Touch_Init(void)
@@ -55,9 +55,11 @@ void Touch_Init(void)
 
 void Touch_Key_Proc(void)
 {
-	if ((key0 == 1) || (key1 == 1) || (key2 == 1) || (key3 == 1))
+	if ((key0 == 1) || (key1 == 1) || (key2 == 1) || (key3 == 1)) {
 		Control_Touch_LED(1);
-	else
+	}
+	else {
 		Control_Touch_LED(0);
+	}
 }
 

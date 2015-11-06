@@ -2,17 +2,17 @@
 #include "PWM.h"
 
 /**************************************************************/
-//≥Ã –Ú √˚£∫ PWM_init()
-//ø™ ∑¢ ’ﬂ£∫ chenhonglin
-//»Îø⁄≤Œ ˝£∫ Œﬁ
-//π¶ƒ‹Àµ√˜£∫ pwm≥ı ºªØ  PWMCH1-- GPIOPB8 PWMCH2-- GPIOPB9
+//Á®ã Â∫è ÂêçÔºö PWM_init()
+//ÂºÄ Âèë ËÄÖÔºö chenhonglin
+//ÂÖ•Âè£ÂèÇÊï∞Ôºö Êó†
+//ÂäüËÉΩËØ¥ÊòéÔºö pwmÂàùÂßãÂåñ  PWMCH1-- GPIOPB8 PWMCH2-- GPIOPB9
 //**************************************************************/
 void  Pwm_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
-	
+
 	uint16_t CCR1_Val = 1000;
 	uint16_t PrescalerValue = 0;
 
@@ -20,9 +20,9 @@ void  Pwm_Init(void)
 	RCC_APB2PeriphClockCmd(RCC_APB1Periph_TIM4 | RCC_APB2Periph_GPIOB  | RCC_APB2Periph_AFIO, ENABLE);
 
 	/************************
-  PWMCH1-- GPIOPB8 
-  PWMCH2-- GPIOPB9
-  *************************/
+	PWMCH1-- GPIOPB8
+	PWMCH2-- GPIOPB9
+	*************************/
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -38,14 +38,14 @@ void  Pwm_Init(void)
 	   TIM4 Channel4 duty cycle = (TIM4_CCR4/ TIM4_ARR)* 100 = 12.5%
 	   ----------------------------------------------------------------------- */
 	/* Compute the prescaler value */
-	PrescalerValue = (uint16_t) (SystemCoreClock / 8000000) - 1; 
-	
+	PrescalerValue = (uint16_t) (SystemCoreClock / 8000000) - 1;
+
 	/* Time base configuration */
 	TIM_TimeBaseStructure.TIM_Period = 2000;
 	TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0; 
+	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 
 	TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
 
@@ -56,8 +56,8 @@ void  Pwm_Init(void)
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputState_Enable;
 	TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
-	TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCIdleState_Reset;  
-	TIM_OCInitStructure.TIM_Pulse = CCR1_Val;        
+	TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCIdleState_Reset;
+	TIM_OCInitStructure.TIM_Pulse = CCR1_Val;
 
 	TIM_OC1PreloadConfig(TIM4, TIM_OCPreload_Enable);
 	TIM_OC1Init(TIM4, &TIM_OCInitStructure);
