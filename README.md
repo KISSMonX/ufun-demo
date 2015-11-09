@@ -19,4 +19,8 @@
 
 加入到项目中来.  demo 程序一定会成为以后裸奔或者 RTOS 版本的基础.   
 
+工程直接 clone 下来就可以在 Project 目录内找到 .uvproj(keil MDK 4.x 打开), .uvprojx(keil 5.x 打开).   
+
+我们的版本已经约定使用 KEIL MDK5.15 版本. 其他版本可能会遇到各种问题, 可以发 issues 给我们. 一起 fix.   
+
 加油!  
