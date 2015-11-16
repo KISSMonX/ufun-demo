@@ -24,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
 #include "RTC.h"
-
+#include "SDIO_SD.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Examples
  * @{

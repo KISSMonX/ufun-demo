@@ -4,7 +4,7 @@
 #include "BUZZER.h"
 #include "USART.h"
 #include "RTC.h"
-#include "SDIO.h"
+#include "SDIO_SD.h"
 #include "ADC.h"
 #include "PWM.h"
 #include "PCIe.h"
@@ -145,7 +145,7 @@ int main(void)
 					ACCdiff[i] = oldACCdata[i] - ACCdata[i];
 				}
 			}
-			RGB_Control(ACCdiff[0]<<1, ACCdiff[1]<<1, ACCdiff[2]<<1);
+			RGB_Control(ACCdiff[0]<<2, ACCdiff[1]<<2, ACCdiff[2]<<2);
 			for (i=0; i<3; i++){
 				oldACCdata[i] = ACCdata[i];
 			}

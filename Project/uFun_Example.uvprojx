@@ -426,6 +426,11 @@
               <FilePath>..\USER\RTC.c</FilePath>
             </File>
             <File>
+              <FileName>SDIO_SD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\SDIO_SD.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f10x_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\stm32f10x_it.c</FilePath>
@@ -479,11 +484,6 @@
               <FileName>Tim3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\Tim3.c</FilePath>
-            </File>
-            <File>
-              <FileName>SDIO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\SDIO.c</FilePath>
             </File>
           </Files>
         </Group>
