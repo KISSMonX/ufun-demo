@@ -6,21 +6,21 @@
 
 
 #ifdef __GNUC__
-	/* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
-	set to 'Yes') calls __io_putchar() */
+/* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
+   set to 'Yes') calls __io_putchar() */
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-	#define GETCHAR_PROTOTYPE int __io_getchar(int ch)
+#define GETCHAR_PROTOTYPE int __io_getchar(int ch)
 #else
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-	#define GETCHAR_PROTOTYPE int fgetc(FILE *f)
+#define GETCHAR_PROTOTYPE int fgetc(FILE *f)
 #endif /* __GNUC__ */
 
 
 /**************************************************************/
-//ç¨‹ åº åï¼š USB2Serial_Init
-//å¼€ å‘ è€…ï¼š MingH
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š USBè½¬ä¸²å£åˆå§‹åŒ–
+//³Ì Ğò Ãû£º USB2Serial_Init
+//¿ª ·¢ Õß£º MingH
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º USB×ª´®¿Ú³õÊ¼»¯
 //**************************************************************/
 void USB2Serial_Init(void)
 {
@@ -69,7 +69,8 @@ void USB2Serial_Init(void)
  * @param  None
  * @retval None
  */
-PUTCHAR_PROTOTYPE {
+PUTCHAR_PROTOTYPE
+{
 	/* Place your implementation of fputc here */
 	/* e.g. write a character to the USART */
 	USART_SendData(USART1, (uint8_t) ch);
@@ -81,7 +82,8 @@ PUTCHAR_PROTOTYPE {
 	return ch;
 }
 
-GETCHAR_PROTOTYPE {
+GETCHAR_PROTOTYPE
+{
 	while (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET)
 	{}
 
@@ -99,13 +101,15 @@ uint8_t USART_Scanf(uint32_t value)
 	uint32_t index = 0;
 	uint32_t tmp[2] = {0, 0};
 
-	while (index < 2) {
+	while (index < 2)
+	{
 		/* Loop until RXNE = 1 */
 		while (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET)
 		{}
 		tmp[index++] = (USART_ReceiveData(USART1));
-
-		if ((tmp[index - 1] < 0x30) || (tmp[index - 1] > 0x39)) {
+			
+		if ((tmp[index - 1] < 0x30) || (tmp[index - 1] > 0x39))
+		{
 			printf("\n\rPlease enter valid number between 0 and 9");
 			index--;
 		}
@@ -113,7 +117,8 @@ uint8_t USART_Scanf(uint32_t value)
 	/* Calculate the Corresponding value */
 	index = (tmp[1] - 0x30) + ((tmp[0] - 0x30) * 10);
 	/* Checks */
-	if (index > value) {
+	if (index > value)
+	{
 		printf("\n\rPlease enter valid number between 0 and %d", value);
 		return 0xFF;
 	}

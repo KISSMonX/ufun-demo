@@ -5,7 +5,7 @@
 * Version            : $Revision:$
 * Date               : $Date:$
 * Description        : LIS3DH driver file
-*
+*                      
 * HISTORY:
 * Date               |	Modification                    |	Author
 * 24/06/2011         |	Initial Revision                |	Fabio Tota
@@ -30,17 +30,17 @@
 /*******************************************************************************
 * Function Name		: ReadReg
 * Description		: Generic Reading function. It must be fullfilled with either
-*			: I2C or SPI reading functions
+*			: I2C or SPI reading functions					
 * Input			: Register Address
 * Output		: Data REad
 * Return		: None
 *******************************************************************************/
-u8_t ReadReg(u8_t Reg, u8_t *Data)
+u8_t ReadReg(u8_t Reg, u8_t* Data) 
 {
-	//To be completed with either I2c or SPI reading function
-	//i.e. *Data = SPI_Mems_Read_Reg( Reg );
-	*Data = ReadI2C(Reg , 0x32);
-	return 1;
+  //To be completed with either I2c or SPI reading function
+  //i.e. *Data = SPI_Mems_Read_Reg( Reg );
+  *Data = ReadI2C(Reg , 0x32);
+  return 1;
 }
 
 
@@ -52,12 +52,12 @@ u8_t ReadReg(u8_t Reg, u8_t *Data)
 * Output		: None
 * Return		: None
 *******************************************************************************/
-u8_t WriteReg(u8_t Reg, u8_t Data)
+u8_t WriteReg(u8_t Reg, u8_t Data) 
 {
-	//To be completed with either I2c or SPI writing function
-	//i.e. SPI_Mems_Write_Reg(Reg, Data);
-	WriteI2C(Data, Reg , 0x32);
-	return 1;
+  //To be completed with either I2c or SPI writing function
+  //i.e. SPI_Mems_Write_Reg(Reg, Data);
+  WriteI2C(Data, Reg , 0x32);
+  return 1;
 }
 
 /* Private functions ---------------------------------------------------------*/
@@ -71,20 +71,18 @@ u8_t WriteReg(u8_t Reg, u8_t Data)
 *******************************************************************************/
 status_t SetODR(ODR_t ov)
 {
-	u8_t value;
+  u8_t value;
 
-	if ( !ReadReg(CTRL_REG1, &value) ) {
-		return MEMS_ERROR;
-	}
+  if( !ReadReg(CTRL_REG1, &value) )
+    return MEMS_ERROR;
 
-	value &= 0x0f;
-	value |= ov << ODR_BIT;
+  value &= 0x0f;
+  value |= ov<<ODR_BIT;
 
-	if ( !WriteReg(CTRL_REG1, value) ) {
-		return MEMS_ERROR;
-	}
+  if( !WriteReg(CTRL_REG1, value) )
+    return MEMS_ERROR;
 
-	return MEMS_SUCCESS;
+  return MEMS_SUCCESS;
 }
 
 /*******************************************************************************
@@ -94,56 +92,51 @@ status_t SetODR(ODR_t ov)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t SetMode(Mode_t md)
-{
-	u8_t value;
-	u8_t value2;
-	static   u8_t ODR_old_value;
-
-	if ( !ReadReg(CTRL_REG1, &value) ) {
-		return MEMS_ERROR;
-	}
-
-	if ( !ReadReg(CTRL_REG4, &value2) ) {
-		return MEMS_ERROR;
-	}
-
-	if ((value & 0xF0) == 0) { value = value | (ODR_old_value & 0xF0); } //if it comes from POWERDOWN
-
-	switch (md) {
-
-	case POWER_DOWN:
-		ODR_old_value = value;
-		value &= 0x0F;
-		break;
-
-	case NORMAL:
-		value &= 0xF7;
-		value |= (MEMS_RESET << LPEN);
-		value2 &= 0xF7;
-		value2 |= (MEMS_SET << HR); //set HighResolution_BIT
-		break;
-
-	case LOW_POWER:
-		value &= 0xF7;
-		value |=  (MEMS_SET << LPEN);
-		value2 &= 0xF7;
-		value2 |= (MEMS_RESET << HR); //reset HighResolution_BIT
-		break;
-
-	default:
-		return MEMS_ERROR;
-	}
-
-	if ( !WriteReg(CTRL_REG1, value) ) {
-		return MEMS_ERROR;
-	}
-
-	if ( !WriteReg(CTRL_REG4, value2) ) {
-		return MEMS_ERROR;
-	}
-
-	return MEMS_SUCCESS;
+status_t SetMode(Mode_t md) {
+  u8_t value;
+  u8_t value2;
+  static   u8_t ODR_old_value;
+ 
+  if( !ReadReg(CTRL_REG1, &value) )
+    return MEMS_ERROR;
+  
+  if( !ReadReg(CTRL_REG4, &value2) )
+    return MEMS_ERROR;
+  
+  if((value & 0xF0)==0) value = value | (ODR_old_value & 0xF0); //if it comes from POWERDOWN  
+    
+  switch(md) {
+  
+  case POWER_DOWN:
+    ODR_old_value = value;
+    value &= 0x0F;
+    break;
+          
+  case NORMAL:
+    value &= 0xF7;
+    value |= (MEMS_RESET<<LPEN);
+    value2 &= 0xF7;
+    value2 |= (MEMS_SET<<HR);   //set HighResolution_BIT
+    break;
+          
+  case LOW_POWER:		
+    value &= 0xF7;
+    value |=  (MEMS_SET<<LPEN);
+    value2 &= 0xF7;
+    value2 |= (MEMS_RESET<<HR); //reset HighResolution_BIT
+    break;
+          
+  default:
+    return MEMS_ERROR;
+  }
+  
+  if( !WriteReg(CTRL_REG1, value) )
+    return MEMS_ERROR;
+  
+  if( !WriteReg(CTRL_REG4, value2) )
+    return MEMS_ERROR;  
+   
+  return MEMS_SUCCESS;
 }
 
 
@@ -155,21 +148,18 @@ status_t SetMode(Mode_t md)
 * Note           : You MUST use all input variable in the argument, as example
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t SetAxis(Axis_t axis)
-{
-	u8_t value;
-
-	if ( !ReadReg(CTRL_REG1, &value) ) {
-		return MEMS_ERROR;
-	}
-	value &= 0xF8;
-	value |= (0x07 & axis);
-
-	if ( !WriteReg(CTRL_REG1, value) ) {
-		return MEMS_ERROR;
-	}
-
-	return MEMS_SUCCESS;
+status_t SetAxis(Axis_t axis) {
+  u8_t value;
+  
+  if( !ReadReg(CTRL_REG1, &value) )
+    return MEMS_ERROR;
+  value &= 0xF8;
+  value |= (0x07 & axis);
+   
+  if( !WriteReg(CTRL_REG1, value) )
+    return MEMS_ERROR;   
+  
+  return MEMS_SUCCESS;
 }
 
 
@@ -180,22 +170,19 @@ status_t SetAxis(Axis_t axis)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t SetFullScale(Fullscale_t fs)
-{
-	u8_t value;
-
-	if ( !ReadReg(CTRL_REG4, &value) ) {
-		return MEMS_ERROR;
-	}
-
-	value &= 0xCF;
-	value |= (fs << FS);
-
-	if ( !WriteReg(CTRL_REG4, value) ) {
-		return MEMS_ERROR;
-	}
-
-	return MEMS_SUCCESS;
+status_t SetFullScale(Fullscale_t fs) {
+  u8_t value;
+  
+  if( !ReadReg(CTRL_REG4, &value) )
+    return MEMS_ERROR;
+                  
+  value &= 0xCF;	
+  value |= (fs<<FS);
+  
+  if( !WriteReg(CTRL_REG4, value) )
+    return MEMS_ERROR;
+  
+  return MEMS_SUCCESS;
 }
 
 
@@ -206,22 +193,19 @@ status_t SetFullScale(Fullscale_t fs)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t SetBDU(State_t bdu)
-{
-	u8_t value;
+status_t SetBDU(State_t bdu) {
+  u8_t value;
+  
+  if( !ReadReg(CTRL_REG4, &value) )
+    return MEMS_ERROR;
+ 
+  value &= 0x7F;
+  value |= (bdu<<BDU);
 
-	if ( !ReadReg(CTRL_REG4, &value) ) {
-		return MEMS_ERROR;
-	}
+  if( !WriteReg(CTRL_REG4, value) )
+    return MEMS_ERROR;
 
-	value &= 0x7F;
-	value |= (bdu << BDU);
-
-	if ( !WriteReg(CTRL_REG4, value) ) {
-		return MEMS_ERROR;
-	}
-
-	return MEMS_SUCCESS;
+  return MEMS_SUCCESS;
 }
 
 
@@ -232,100 +216,99 @@ status_t SetBDU(State_t bdu)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t SetBLE(Endianess_t ble)
-{
-	u8_t value;
-
-	if ( !ReadReg(CTRL_REG4, &value) ) {
-		return MEMS_ERROR;
-	}
-
-	value &= 0xBF;
-	value |= (ble << BLE);
-
-	if ( !WriteReg(CTRL_REG4, value) ) {
-		return MEMS_ERROR;
-	}
-
-	return MEMS_SUCCESS;
+status_t SetBLE(Endianess_t ble) {
+  u8_t value;
+  
+  if( !ReadReg(CTRL_REG4, &value) )
+    return MEMS_ERROR;
+                  
+  value &= 0xBF;	
+  value |= (ble<<BLE);
+  
+  if( !WriteReg(CTRL_REG4, value) )
+    return MEMS_ERROR;
+  
+  return MEMS_SUCCESS;
 }
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
 
 unsigned char LIS3DH_Init(void)
-{
+{   
 	u8 response;
 
-	switch (50) { //config ODR
-	case 50:
-		response = SetODR(ODR_50Hz);
-		break;
-	case 100:
-		response = SetODR(ODR_100Hz);
-		break;
-	case 200:
-		response = SetODR(ODR_200Hz);
-		break;
-	case 400:
-		response = SetODR(ODR_400Hz);
-		break;
-	default: return ACC_ODR_ERROR;
+	switch(50)//config ODR
+	{
+		case 50:
+			response = SetODR(ODR_50Hz);
+			break;
+		case 100:
+			response = SetODR(ODR_100Hz);
+			break;
+		case 200:
+			response = SetODR(ODR_200Hz);
+			break;
+		case 400:
+			response = SetODR(ODR_400Hz);
+			break;
+		default: return ACC_ODR_ERROR;
 	}
-	if (response == MEMS_ERROR) { return CONFIG_ERROR_ACC; }
+	if(response == MEMS_ERROR) return CONFIG_ERROR_ACC;
 
-	// Set PowerMode
+  // Set PowerMode 
 	response = SetMode(NORMAL);
-	if (response == MEMS_ERROR) { return CONFIG_ERROR_ACC; }
+	if(response == MEMS_ERROR) return CONFIG_ERROR_ACC;
 
-	// Set Fullscale
+  // Set Fullscale
 	// FULLSCALE_2		1mg/digit
 	// FULLSCALE_4		2mg/digit
 	// FULLSCALE_8		4mg/digit
 	// FULLSCALE_16		12mg/digit
-	switch (2000) { //config RANGE
-	case 2000:
-		response = SetFullScale(FULLSCALE_2);
-		break;
-	case 4000:
-		response = SetFullScale(FULLSCALE_4);
-		break;
-	case 8000:
-		response = SetFullScale(FULLSCALE_8);
-		break;
-	case 16000:
-		response = SetFullScale(FULLSCALE_16);
-		break;
-	default: return ACC_RANGE_ERROR;
+	switch(2000)//config RANGE
+	{
+		case 2000:
+			response = SetFullScale(FULLSCALE_2);
+			break;
+		case 4000:
+			response = SetFullScale(FULLSCALE_4);
+			break;
+		case 8000:
+			response = SetFullScale(FULLSCALE_8);
+			break;
+		case 16000:
+			response = SetFullScale(FULLSCALE_16);
+			break;
+		default: return ACC_RANGE_ERROR;
 	}
-	if (response == MEMS_ERROR) { return CONFIG_ERROR_ACC; }
+	if(response == MEMS_ERROR) return CONFIG_ERROR_ACC;
 
-	// Using the block data update (BDU) feature
+// Using the block data update (BDU) feature
 	response = SetBDU(MEMS_ENABLE);
-	if (response == MEMS_ERROR) { return CONFIG_ERROR_ACC; }
+	if(response == MEMS_ERROR) return CONFIG_ERROR_ACC;
 
-	// Big-little endian selection
+// Big-little endian selection
 	response = SetBLE(BLE_LSB);
-	if (response == MEMS_ERROR) { return CONFIG_ERROR_ACC; }
+	if(response == MEMS_ERROR) return CONFIG_ERROR_ACC;
 
-	// Set axis Enable
+// Set axis Enable
 	response = SetAxis(X_ENABLE | Y_ENABLE | Z_ENABLE);
-	if (response == MEMS_ERROR) { return CONFIG_ERROR_ACC; }
+	if(response == MEMS_ERROR) return CONFIG_ERROR_ACC;
 
 	return NO_ERROR;
 }
 
-void Collect_Data(s16 *data)
+void Collect_Data(s16* data)
 {
-	// åŠ é€Ÿåº¦çš„æ•°æ®ï¼Œå‰6å­—èŠ‚
+	// ¼ÓËÙ¶ÈµÄÊý¾Ý£¬Ç°6×Ö½Ú
 	data[0] = ReadI2C(ACC_YOUT_H, ACCWriteAddress) << 8;
-	data[0] |= ReadI2C(ACC_YOUT_L, ACCWriteAddress);	// Xã€Yè½´ç›¸äº’äº¤æ¢
-	data[0] >>= 4;// ä¼ æ„Ÿå™¨åŽå››ä½æ°¸è¿œä¸º0ï¼Œè¿™é‡Œè¦åšçš„æ˜¯å³å¯¹é½ï¼Œä½¿ä¸€ä¸ªbitçš„å˜åŒ–ä»£è¡¨4mg
+	data[0]|= ReadI2C(ACC_YOUT_L, ACCWriteAddress);	// X¡¢YÖáÏà»¥½»»»
+	data[0] >>= 4;// ´«¸ÐÆ÷ºóËÄÎ»ÓÀÔ¶Îª0£¬ÕâÀïÒª×öµÄÊÇÓÒ¶ÔÆë£¬Ê¹Ò»¸öbitµÄ±ä»¯´ú±í4mg
 	data[1] = ReadI2C(ACC_XOUT_H, ACCWriteAddress) << 8;
-	data[1] |= ReadI2C(ACC_XOUT_L, ACCWriteAddress);	// Xã€Yè½´ç›¸äº’äº¤æ¢
+	data[1]|= ReadI2C(ACC_XOUT_L, ACCWriteAddress);	// X¡¢YÖáÏà»¥½»»»
 	data[1] = -data[1];
-	data[1] >>= 4;// ä¼ æ„Ÿå™¨åŽå››ä½æ°¸è¿œä¸º0ï¼Œè¿™é‡Œè¦åšçš„æ˜¯å³å¯¹é½ï¼Œä½¿ä¸€ä¸ªbitçš„å˜åŒ–ä»£è¡¨4mg
+	data[1] >>= 4;// ´«¸ÐÆ÷ºóËÄÎ»ÓÀÔ¶Îª0£¬ÕâÀïÒª×öµÄÊÇÓÒ¶ÔÆë£¬Ê¹Ò»¸öbitµÄ±ä»¯´ú±í4mg
 	data[2] = ReadI2C(ACC_ZOUT_H, ACCWriteAddress) << 8;
-	data[2] |= ReadI2C(ACC_ZOUT_L, ACCWriteAddress);	// Zè½´ä¸å˜
-	data[2] >>= 4;// ä¼ æ„Ÿå™¨åŽå››ä½æ°¸è¿œä¸º0ï¼Œè¿™é‡Œè¦åšçš„æ˜¯å³å¯¹é½ï¼Œä½¿ä¸€ä¸ªbitçš„å˜åŒ–ä»£è¡¨4mg
+	data[2]|= ReadI2C(ACC_ZOUT_L, ACCWriteAddress);	// ZÖá²»±ä
+	data[2] >>= 4;// ´«¸ÐÆ÷ºóËÄÎ»ÓÀÔ¶Îª0£¬ÕâÀïÒª×öµÄÊÇÓÒ¶ÔÆë£¬Ê¹Ò»¸öbitµÄ±ä»¯´ú±í4mg
 	data[2] = -data[2];
 }
 

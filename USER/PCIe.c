@@ -30,7 +30,7 @@ u8	pc1_flag = 0;
 
 
 
-//æ”¹å˜PCIE IOçŠ¶æ€
+//¸Ä±äPCIE IO×´Ì¬
 void Change_PcieIo_Flag(void)
 {
 		/*********************************************************************
@@ -77,14 +77,14 @@ void Change_PcieIo_Flag(void)
 }
 
 /**************************************************************/
-//ç¨‹ åº åï¼š GPIOA_Config()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š é…ç½®GPIOA
+//³Ì Ğò Ãû£º GPIOA_Config()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ÅäÖÃGPIOA
 //**************************************************************/
 void GPIOA_Config(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;//å®šä¹‰ç»“æ„ä½“
+    GPIO_InitTypeDef GPIO_InitStructure;//¶¨Òå½á¹¹Ìå
     /* GPIOA clock enable */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
     
@@ -97,14 +97,14 @@ void GPIOA_Config(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 }
 /**************************************************************/
-//ç¨‹ åº åï¼š GPIOB_Config()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š é…ç½®GPIOB
+//³Ì Ğò Ãû£º GPIOB_Config()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ÅäÖÃGPIOB
 //**************************************************************/
 void GPIOB_Config(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;//å®šä¹‰ç»“æ„ä½“
+    GPIO_InitTypeDef GPIO_InitStructure;//¶¨Òå½á¹¹Ìå
     /* GPIOB clock enable */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
     
@@ -117,14 +117,14 @@ void GPIOB_Config(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 }
 /**************************************************************/
-//ç¨‹ åº åï¼š GPIOC_Config()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š é…ç½®GPIOC
+//³Ì Ğò Ãû£º GPIOC_Config()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ÅäÖÃGPIOC
 //**************************************************************/
 void GPIOC_Config(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;//å®šä¹‰ç»“æ„ä½“
+    GPIO_InitTypeDef GPIO_InitStructure;//¶¨Òå½á¹¹Ìå
     /* GPIOC clock enable */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
     
@@ -138,10 +138,10 @@ void GPIOC_Config(void)
 }
 
 /**************************************************************/
-//ç¨‹ åº åï¼š Pcie_Gpio_Init()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š pcie io åˆå§‹åŒ–
+//³Ì Ğò Ãû£º Pcie_Gpio_Init()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º pcie io ³õÊ¼»¯
 //**************************************************************/
 void Pcie_Gpio_Init(void)
 {
@@ -152,11 +152,11 @@ void Pcie_Gpio_Init(void)
 
 
 /**************************************************************/
-//ç¨‹ åº åï¼š Test_Pcie_Gpio()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š åˆ©ç”¨å®šæ—¶å™¨3ä¸­æ–­è®©æ¯ä¸€ä¸ªioéƒ½è¾“å‡ºä¸åŒé¢‘ç‡çš„æ–¹æ³¢ï¼Œç”¨ç¤ºæ³¢å™¨
-//æµ‹è¯•æ¯ä¸ªioçš„é¢‘ç‡ï¼Œä»»æ„ioçš„é¢‘ç‡ä¸é‡å¤ pcieæ¥å£çš„ç”µæ°”è¿æ¥å®Œå¥½.
+//³Ì Ğò Ãû£º Test_Pcie_Gpio()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ÀûÓÃ¶¨Ê±Æ÷3ÖĞ¶ÏÈÃÃ¿Ò»¸öio¶¼Êä³ö²»Í¬ÆµÂÊµÄ·½²¨£¬ÓÃÊ¾²¨Æ÷
+//²âÊÔÃ¿¸öioµÄÆµÂÊ£¬ÈÎÒâioµÄÆµÂÊ²»ÖØ¸´ pcie½Ó¿ÚµÄµçÆøÁ¬½ÓÍêºÃ.
 //**************************************************************/
 void Test_Pcie_Gpio(void)
 {
