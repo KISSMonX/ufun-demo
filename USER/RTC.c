@@ -29,10 +29,10 @@ void RTC_NVIC_Configuration(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
 	/* Enable the RTC Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel                   = RTC_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority        = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 }
 
@@ -94,29 +94,29 @@ uint32_t Time_Regulate(void)
 {
 	uint32_t Tmp_HH = 0x0, Tmp_MM = 0x0, Tmp_SS = 0x0;
 
-	//	printf("\r\n==============Time Settings===================");
-	//	printf("\r\n  Please Set Hours");
+//	printf("\r\n==============Time Settings===================");
+//	printf("\r\n  Please Set Hours");
 
-	//	while (Tmp_HH == 0xFF)
-	//	{
-	//		Tmp_HH = USART_Scanf(23);
-	//	}
-	//	printf(":  %d", Tmp_HH);
-	//	printf("\r\n  Please Set Minutes");
-	//	while (Tmp_MM == 0xFF)
-	//	{
-	//		Tmp_MM = USART_Scanf(59);
-	//	}
-	//	printf(":  %d", Tmp_MM);
-	//	printf("\r\n  Please Set Seconds");
-	//	while (Tmp_SS == 0xFF)
-	//	{
-	//		Tmp_SS = USART_Scanf(59);
-	//	}
-	//	printf(":  %d\r\n\r\n", Tmp_SS);
+//	while (Tmp_HH == 0xFF)
+//	{
+//		Tmp_HH = USART_Scanf(23);
+//	}
+//	printf(":  %d", Tmp_HH);
+//	printf("\r\n  Please Set Minutes");
+//	while (Tmp_MM == 0xFF)
+//	{
+//		Tmp_MM = USART_Scanf(59);
+//	}
+//	printf(":  %d", Tmp_MM);
+//	printf("\r\n  Please Set Seconds");
+//	while (Tmp_SS == 0xFF)
+//	{
+//		Tmp_SS = USART_Scanf(59);
+//	}
+//	printf(":  %d\r\n\r\n", Tmp_SS);
 
 	/* Return the value to store in RTC counter register */
-	return ((Tmp_HH * 3600 + Tmp_MM * 60 + Tmp_SS));
+	return((Tmp_HH*3600 + Tmp_MM*60 + Tmp_SS));
 }
 
 /**
@@ -144,7 +144,8 @@ void Time_Display(uint32_t TimeVar)
 	uint32_t THH = 0, TMM = 0, TSS = 0;
 
 	/* Reset RTC Counter when Time is 23:59:59 */
-	if (RTC_GetCounter() == 0x0001517F) {
+	if (RTC_GetCounter() == 0x0001517F)
+	{
 		RTC_SetCounter(0x0);
 		/* Wait until last write operation on RTC registers has finished */
 		RTC_WaitForLastTask();
@@ -161,15 +162,16 @@ void Time_Display(uint32_t TimeVar)
 }
 
 /**************************************************************/
-//ç¨‹ åº åï¼š RCC_Config()
-//å¼€ å‘ è€…ï¼š MingH
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š æ˜¾ç¤ºå½“å‰æ—¶é—´: æ—¶åˆ†ç§’
+//³Ì Ğò Ãû£º RCC_Config()
+//¿ª ·¢ Õß£º MingH
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ÏÔÊ¾µ±Ç°Ê±¼ä: Ê±·ÖÃë
 //**************************************************************/
 void Time_Show(void)
 {
 	/* If 1s has been elapsed */
-	if (TimeDisplay == 1) {
+	if (TimeDisplay == 1)
+	{
 		/* Display current time */
 		Time_Display(RTC_GetCounter());
 		TimeDisplay = 0;
@@ -178,16 +180,17 @@ void Time_Show(void)
 
 
 /**************************************************************/
-//ç¨‹ åº åï¼š RTC_Init
-//å¼€ å‘ è€…ï¼š MingH
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š RTC ç›¸å…³å¯„å­˜å™¨é…ç½®åˆå§‹åŒ–, å¤–éƒ¨è°ƒç”¨
+//³Ì Ğò Ãû£º RTC_Init
+//¿ª ·¢ Õß£º MingH
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º RTC Ïà¹Ø¼Ä´æÆ÷ÅäÖÃ³õÊ¼»¯, Íâ²¿µ÷ÓÃ
 //**************************************************************/
 void RTC_Init(void)
 {
-	RTC_NVIC_Configuration(); // RTC ä¸­æ–­é…ç½®
-
-	if (BKP_ReadBackupRegister(BKP_DR1) != 0xA5A5) {
+	RTC_NVIC_Configuration(); // RTC ÖĞ¶ÏÅäÖÃ
+	
+	if (BKP_ReadBackupRegister(BKP_DR1) != 0xA5A5)
+	{
 		/* Backup data register value is not correct or not yet programmed (when
 		   the first time the program is executed) */
 
@@ -203,13 +206,16 @@ void RTC_Init(void)
 
 		BKP_WriteBackupRegister(BKP_DR1, 0xA5A5);
 	}
-	else {
+	else
+	{
 		/* Check if the Power On Reset flag is set */
-		if (RCC_GetFlagStatus(RCC_FLAG_PORRST) != RESET) {
+		if (RCC_GetFlagStatus(RCC_FLAG_PORRST) != RESET)
+		{
 			printf("\r\n\n Power On Reset occurred....");
 		}
 		/* Check if the Pin Reset flag is set */
-		else if (RCC_GetFlagStatus(RCC_FLAG_PINRST) != RESET) {
+		else if (RCC_GetFlagStatus(RCC_FLAG_PINRST) != RESET)
+		{
 			printf("\r\n\n External Reset occurred....");
 		}
 

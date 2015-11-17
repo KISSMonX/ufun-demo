@@ -4,7 +4,7 @@
 * Author             : Fabio Tota
 * Version            : $Revision:$
 * Date               : $Date:$
-* Description        : Descriptor Header for lis3dh_driver.c driver fileÔºà3ËΩ¥Âä†ÈÄüÂ∫¶‰º†ÊÑüÂô®Ôºâ
+* Description        : Descriptor Header for lis3dh_driver.c driver file£®3÷·º”ÀŸ∂»¥´∏–∆˜£©
 *
 * HISTORY:
 * Date        | Modification                                | Author
@@ -42,63 +42,63 @@ typedef u8_t Int1Conf_t;
 
 
 typedef enum {
-	MEMS_SUCCESS =		0x01,
-	MEMS_ERROR   =		0x00
+  MEMS_SUCCESS                  =		0x01,
+  MEMS_ERROR			=		0x00	
 } status_t;
 
 typedef enum {
-	MEMS_ENABLE  =		0x01,
-	MEMS_DISABLE =		0x00
+  MEMS_ENABLE			=		0x01,
+  MEMS_DISABLE			=		0x00	
 } State_t;
 
-typedef enum {
-	ODR_1Hz                 =		0x01,
-	ODR_10Hz                =		0x02,
-	ODR_25Hz                =		0x03,
-	ODR_50Hz                =		0x04,
-	ODR_100Hz               =		0x05,
-	ODR_200Hz               =		0x06,
-	ODR_400Hz               =		0x07,
-	ODR_1620Hz_LP           =		0x08,
-	ODR_1344Hz_NP_5367HZ_LP =		0x09
+typedef enum {  
+  ODR_1Hz		        	=		0x01,		
+  ODR_10Hz            =		0x02,
+  ODR_25Hz		        =		0x03,
+  ODR_50Hz		        =		0x04,
+  ODR_100Hz		        =		0x05,	
+  ODR_200Hz		        =		0x06,
+  ODR_400Hz		        =		0x07,
+  ODR_1620Hz_LP		        =		0x08,
+  ODR_1344Hz_NP_5367HZ_LP       =		0x09	
 } ODR_t;
 
 typedef enum {
-	POWER_DOWN =		0x00,
-	LOW_POWER  =		0x01,
-	NORMAL     =		0x02
+  POWER_DOWN                    =		0x00,
+  LOW_POWER 			=		0x01,
+  NORMAL			=		0x02
 } Mode_t;
 
 typedef enum {
-	FULLSCALE_2                   =               0x00,
-	FULLSCALE_4                   =               0x01,
-	FULLSCALE_8                   =               0x02,
-	FULLSCALE_16                  =               0x03
+  FULLSCALE_2                   =               0x00,
+  FULLSCALE_4                   =               0x01,
+  FULLSCALE_8                   =               0x02,
+  FULLSCALE_16                  =               0x03
 } Fullscale_t;
 
 typedef enum {
-	BLE_LSB			=		0x00,
-	BLE_MSB			=		0x01
+  BLE_LSB			=		0x00,
+  BLE_MSB			=		0x01
 } Endianess_t;
 
 typedef enum {
-	SELF_TEST_DISABLE             =               0x00,
-	SELF_TEST_0                   =               0x01,
-	SELF_TEST_1                   =               0x02
+  SELF_TEST_DISABLE             =               0x00,
+  SELF_TEST_0                   =               0x01,
+  SELF_TEST_1                   =               0x02
 } SelfTest_t;
 
 typedef enum {
-	X_ENABLE                      =               0x01,
-	X_DISABLE                     =               0x00,
-	Y_ENABLE                      =               0x02,
-	Y_DISABLE                     =               0x00,
-	Z_ENABLE                      =               0x04,
-	Z_DISABLE                     =               0x00
+  X_ENABLE                      =               0x01,
+  X_DISABLE                     =               0x00,
+  Y_ENABLE                      =               0x02,
+  Y_DISABLE                     =               0x00,
+  Z_ENABLE                      =               0x04,
+  Z_DISABLE                     =               0x00    
 } AXISenable_t;
 
 /* Exported constants --------------------------------------------------------*/
-// ACC LIS3DH‰º†ÊÑüÂô®ÂÆèÂÆö‰πâ
-#define ACCWriteAddress			0x32	// Âú®I2CÊÄªÁ∫ø‰∏≠ÁöÑÂú∞ÂùÄ
+// ACC LIS3DH¥´∏–∆˜∫Í∂®“Â
+#define ACCWriteAddress			0x32	// ‘⁄I2C◊‹œﬂ÷–µƒµÿ÷∑
 #define ACCReadAddress			0x33
 
 #define MEMS_SET                0x01
@@ -161,12 +161,12 @@ status_t SetBLE(Endianess_t ble);
 
 unsigned char LIS3DH_Init(void);
 
-void Collect_Data(s16 *data);
+void Collect_Data(s16* data);
 //Generic
 // i.e. u8_t ReadReg(u8_t Reg, u8_t* Data);
 // i.e. u8_t WriteReg(u8_t Reg, u8_t Data);
-extern void WriteI2C(u8, u8, u8);
-extern u8 ReadI2C(u8, u8);
+extern void WriteI2C(u8,u8,u8); 
+extern u8 ReadI2C(u8,u8);
 
 #endif /* __LIS3DH_H */
 

@@ -1,5 +1,5 @@
 
-/* åŒ…å«å¤´æ–‡ä»¶ *****************************************************************/
+/* °üº¬Í·ÎÄ¼ş *****************************************************************/
 #include "main.h"
 #include "I2C.h"
 
@@ -11,16 +11,16 @@ void I2C_GPIO_Configuration(void)
 
 	/* Configure I2C2 pins: SCL and SDA -------------------*/
 	GPIO_InitStructure.GPIO_Pin = SCL | SDA;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;	// é…ç½®æˆå¼€æ¼è¾“å‡ºï¼ŒGPIOæ¨¡æ‹ŸI2C
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;	// ÅäÖÃ³É¿ªÂ©Êä³ö£¬GPIOÄ£ÄâI2C
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
 
 void I2C_delay(void)
-{
-	u8 i = I2C_DELAY;	// åœ¨72MHzä¸»é¢‘ä¸‹ï¼Œç»æµ‹è¯•æœ€ä½åˆ°2è¿˜èƒ½å†™å…¥
-	while (i) { i--; }
+{         
+	u8 i = I2C_DELAY;	// ÔÚ72MHzÖ÷ÆµÏÂ£¬¾­²âÊÔ×îµÍµ½2»¹ÄÜĞ´Èë
+	while(i) i--;
 }
 
 Bool I2C_Start(void)
@@ -61,7 +61,7 @@ void I2C_Stop(void)
 }
 
 void I2C_Ack(void)
-{
+{         
 	SCL_L;
 #if ENABLE_I2C_DELAY
 	I2C_delay();
@@ -71,249 +71,254 @@ void I2C_Ack(void)
 	I2C_delay();
 #endif
 	SCL_H;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 	SCL_L;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 }
 
 void I2C_NoAck(void)
-{
+{         
 	SCL_L;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 	SDA_H;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 	SCL_H;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 	SCL_L;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 }
 
-Bool I2C_WaitAck(void)	// è¿”å›ä¸º1æœ‰ACKï¼Œä¸º0æ— ACK
+Bool I2C_WaitAck(void)	// ·µ»ØÎª1ÓĞACK£¬Îª0ÎŞACK
 {
 	SCL_L;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 	SDA_H;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 	SCL_H;
-#if ENABLE_I2C_DELAY
+#if ENABLE_I2C_DELAY	
 	I2C_delay();
 #endif
 	SCL_L;
-	if (SDA_read) { return FALSE; }
-	else { return TRUE; }
+	if(SDA_read) return FALSE;
+	else return TRUE;
 }
 
-u8 I2C_ReceiveByte(void)	// æ•°æ®ä»é«˜ä½åˆ°ä½ä½
-{
-	u8 i = 8, ReceiveByte = 0;
+u8 I2C_ReceiveByte(void)	// Êı¾İ´Ó¸ßÎ»µ½µÍÎ»
+{  
+	u8 i=8, ReceiveByte=0;
 
-	SDA_H;
-	while (i--) {
-		ReceiveByte <<= 1;
+	SDA_H;                                 
+	while(i--)
+	{
+		ReceiveByte <<= 1;      
 		SCL_L;
-#if ENABLE_I2C_DELAY
+	#if ENABLE_I2C_DELAY
 		I2C_delay();
-#endif
+	#endif
 		SCL_H;
-#if ENABLE_I2C_DELAY
-		I2C_delay();
-#endif
-		if (SDA_read) { ReceiveByte |= 0x01; }
+	#if ENABLE_I2C_DELAY
+      	I2C_delay();
+	#endif         
+		if(SDA_read) ReceiveByte|=0x01;
 	}
 	SCL_L;
 
 	return ReceiveByte;
 }
 
-void I2C_SendByte(u8 SendByte)	// æ•°æ®ä»é«˜ä½åˆ°ä½ä½
+void I2C_SendByte(u8 SendByte)	// Êı¾İ´Ó¸ßÎ»µ½µÍÎ»
 {
-	u8 i = 8;
+	u8 i=8;
 
-	while (i--) {
+	while(i--)
+	{
 		SCL_L;
-#if ENABLE_I2C_DELAY
+	#if ENABLE_I2C_DELAY
 		I2C_delay();
-#endif
-		if (SendByte & 0x80) { SDA_H; }
-		else { SDA_L; }
+	#endif
+		if(SendByte & 0x80) SDA_H;   
+		else SDA_L;   
 		SendByte <<= 1;
-#if ENABLE_I2C_DELAY
+	#if ENABLE_I2C_DELAY
 		I2C_delay();
-#endif
+	#endif
 		SCL_H;
-#if ENABLE_I2C_DELAY
+	#if ENABLE_I2C_DELAY
 		I2C_delay();
-#endif
+	#endif
 	}
 	SCL_L;
 }
 
-u8 ReadI2C(u8 address, u8 WriteAddress)	// è¯»å‡º1ä¸²æ•°æ®
-{
-	u8 ch;				// å®šä¹‰å­˜å‚¨è¯»å‡ºæ•°æ®çš„ä¸´æ—¶å˜é‡;
+u8 ReadI2C(u8 address, u8 WriteAddress)	// ¶Á³ö1´®Êı¾İ        
+{                 
+	u8 ch;				// ¶¨Òå´æ´¢¶Á³öÊı¾İµÄÁÙÊ±±äÁ¿;
 
-	I2C_Start();		// å¯åŠ¨æ€»çº¿ï¼Œå¼€å§‹ä¼ è¾“æ•°æ®;
-	I2C_SendByte(WriteAddress);
-	I2C_WaitAck();		// å‘é€ä»å™¨ä»¶ç¡¬ä»¶åœ°å€;
-	I2C_SendByte(address);
-	I2C_WaitAck();		// å‘é€ä»å™¨ä»¶å†…éƒ¨æ•°æ®å­˜å‚¨å™¨çš„åœ°å€;
-	I2C_Start();		// é‡æ–°å¯åŠ¨æ€»çº¿ï¼Œå¼€å§‹ä¼ è¾“æ•°æ®;
-	I2C_SendByte(WriteAddress + 1);
-	I2C_WaitAck();		// å‘é€ä»å™¨ä»¶å†…éƒ¨æ•°æ®å­˜å‚¨å™¨çš„åœ°å€;
-	ch = I2C_ReceiveByte();
-	I2C_NoAck();		// å°†è¯»å‡ºçš„ä¸€ä¸ªå­—èŠ‚æ•°æ®å­˜å…¥ä¸´æ—¶å˜é‡ï¼Œå‘é€éåº”ç­”ä½;
-	I2C_Stop();			// å‘é€åœæ­¢ä¿¡å·ï¼Œé‡Šæ”¾æ€»è·¯çº¿;
+	I2C_Start();		// Æô¶¯×ÜÏß£¬¿ªÊ¼´«ÊäÊı¾İ;
+	I2C_SendByte(WriteAddress);   
+	I2C_WaitAck();		// ·¢ËÍ´ÓÆ÷¼şÓ²¼şµØÖ·;
+	I2C_SendByte(address);              
+	I2C_WaitAck();		// ·¢ËÍ´ÓÆ÷¼şÄÚ²¿Êı¾İ´æ´¢Æ÷µÄµØÖ·;
+	I2C_Start();		// ÖØĞÂÆô¶¯×ÜÏß£¬¿ªÊ¼´«ÊäÊı¾İ;
+	I2C_SendByte(WriteAddress+1);     
+	I2C_WaitAck();		// ·¢ËÍ´ÓÆ÷¼şÄÚ²¿Êı¾İ´æ´¢Æ÷µÄµØÖ·;
+	ch = I2C_ReceiveByte();              
+	I2C_NoAck();		// ½«¶Á³öµÄÒ»¸ö×Ö½ÚÊı¾İ´æÈëÁÙÊ±±äÁ¿£¬·¢ËÍ·ÇÓ¦´ğÎ»;
+	I2C_Stop();			// ·¢ËÍÍ£Ö¹ĞÅºÅ£¬ÊÍ·Å×ÜÂ·Ïß;
 
-	return (ch);
+	return(ch);     
 }
 
 void WriteI2C(u8 ch, u8 address, u8 WriteAddress)
 {
-	I2C_Start();			// å¯åŠ¨æ€»çº¿ï¼Œå¼€å§‹ä¼ è¾“æ•°æ®;
+	I2C_Start();			// Æô¶¯×ÜÏß£¬¿ªÊ¼´«ÊäÊı¾İ;
 	I2C_SendByte(WriteAddress);			I2C_WaitAck();
-	//while(TestAck());		// å‘é€ä»å™¨ä»¶ç¡¬ä»¶åœ°å€;
-	I2C_SendByte(address);				I2C_WaitAck();
-	//while(TestAck());		// å‘é€ä»å™¨ä»¶å­˜å‚¨å™¨å­—èŠ‚åœ°å€;
-	I2C_SendByte(ch);					I2C_WaitAck();
-	//while(TestAck());		// å‘é€æ•°æ®;
+	//while(TestAck());		// ·¢ËÍ´ÓÆ÷¼şÓ²¼şµØÖ·;  
+	I2C_SendByte(address);				I2C_WaitAck();     
+	//while(TestAck());		// ·¢ËÍ´ÓÆ÷¼ş´æ´¢Æ÷×Ö½ÚµØÖ·;
+	I2C_SendByte(ch);					I2C_WaitAck();         
+	//while(TestAck());		// ·¢ËÍÊı¾İ;
 #if ENABLE_I2C_DELAY
 	I2C_delay();
 #endif
-	I2C_Stop();				// å‘é€åœæ­¢ä½ï¼Œå‘é€æ•°æ®ç»“æŸ;
+	I2C_Stop();				// ·¢ËÍÍ£Ö¹Î»£¬·¢ËÍÊı¾İ½áÊø;
 #if ENABLE_I2C_DELAY
 	I2C_delay();
-#endif
+#endif  
 }
 
 /*******************************************************************************
 * Function Name  : I2C_EE_BufferRead
 * Description    : Reads a block of data from the EEPROM.
-* Input          : - pBuffer : pointer to the buffer that receives the data read
+* Input          : - pBuffer : pointer to the buffer that receives the data read 
 *                    from the EEPROM.
 *                  - ReadAddr : EEPROM's internal address to read from.
 *                  - NumByteToRead : number of bytes to read from the EEPROM.
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void I2C_BufferRead(u8 *pBuffer, u8 HARD_ADDRESS, u8 ReadAddr, u16 NumByteToRead)
-{
-	/* Send START condition */
-	I2C_GenerateSTART(I2C2, ENABLE);
-
-	/* Test on EV5 and clear it */
-	//while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
+void I2C_BufferRead(u8* pBuffer, u8 HARD_ADDRESS, u8 ReadAddr, u16 NumByteToRead)
+{  
+  /* Send START condition */
+  I2C_GenerateSTART(I2C2, ENABLE);
+  
+  /* Test on EV5 and clear it */
+  //while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
 #if ENABLE_I2C_DELAY
 	I2C_delay();
-#endif
-	/* Send Hardware address for write */
-	I2C_Send7bitAddress(I2C2, HARD_ADDRESS, I2C_Direction_Transmitter);
+#endif   
+  /* Send Hardware address for write */
+  I2C_Send7bitAddress(I2C2, HARD_ADDRESS, I2C_Direction_Transmitter);
 
-	/* Test on EV6 and clear it */
-	while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+  /* Test on EV6 and clear it */
+  while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+  
+  /* Clear EV6 by setting again the PE bit */
+  I2C_Cmd(I2C2, ENABLE);
 
-	/* Clear EV6 by setting again the PE bit */
-	I2C_Cmd(I2C2, ENABLE);
+  /* Send the Hardware's internal address to write to */
+  I2C_SendData(I2C2, ReadAddr);  
 
-	/* Send the Hardware's internal address to write to */
-	I2C_SendData(I2C2, ReadAddr);
+  /* Test on EV8 and clear it */
+  while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  
+  /* Send STRAT condition a second time */  
+  I2C_GenerateSTART(I2C2, ENABLE);
+  
+  /* Test on EV5 and clear it */
+  while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
+  
+  /* Send Hardware address for read */
+  I2C_Send7bitAddress(I2C2, HARD_ADDRESS, I2C_Direction_Receiver);
+  
+  /* Test on EV6 and clear it */
+  while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
+  
+  /* While there is data to be read */
+  while(NumByteToRead)  
+  {
+    if(NumByteToRead == 1)
+    {
+      /* Disable Acknowledgement */
+      I2C_AcknowledgeConfig(I2C2, DISABLE);
+      
+      /* Send STOP Condition */
+      I2C_GenerateSTOP(I2C2, ENABLE);
+    }
 
-	/* Test on EV8 and clear it */
-	while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+    /* Test on EV7 and clear it */
+    if(I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_RECEIVED))  
+    {      
+      /* Read a byte from the Hardware */
+      *pBuffer = I2C_ReceiveData(I2C2);
 
-	/* Send STRAT condition a second time */
-	I2C_GenerateSTART(I2C2, ENABLE);
+      /* Point to the next location where the byte read will be saved */
+      pBuffer++; 
+      
+      /* Decrement the read bytes counter */
+      NumByteToRead--;        
+    }   
+  }
 
-	/* Test on EV5 and clear it */
-	while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
-
-	/* Send Hardware address for read */
-	I2C_Send7bitAddress(I2C2, HARD_ADDRESS, I2C_Direction_Receiver);
-
-	/* Test on EV6 and clear it */
-	while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
-
-	/* While there is data to be read */
-	while (NumByteToRead) {
-		if (NumByteToRead == 1) {
-			/* Disable Acknowledgement */
-			I2C_AcknowledgeConfig(I2C2, DISABLE);
-
-			/* Send STOP Condition */
-			I2C_GenerateSTOP(I2C2, ENABLE);
-		}
-
-		/* Test on EV7 and clear it */
-		if (I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_RECEIVED)) {
-			/* Read a byte from the Hardware */
-			*pBuffer = I2C_ReceiveData(I2C2);
-
-			/* Point to the next location where the byte read will be saved */
-			pBuffer++;
-
-			/* Decrement the read bytes counter */
-			NumByteToRead--;
-		}
-	}
-
-	/* Enable Acknowledgement to be ready for another reception */
-	I2C_AcknowledgeConfig(I2C2, ENABLE);
+  /* Enable Acknowledgement to be ready for another reception */
+  I2C_AcknowledgeConfig(I2C2, ENABLE);
 }
 
 /*******************************************************************************
 * Function Name  : I2C_EE_ByteWrite
 * Description    : Writes one byte to the I2C EEPROM.
-* Input          : - pBuffer : pointer to the buffer  containing the data to be
+* Input          : - pBuffer : pointer to the buffer  containing the data to be 
 *                    written to the EEPROM.
 *                  - WriteAddr : EEPROM's internal address to write to.
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void I2C_ByteWrite(u8 *pBuffer, u8 HARD_ADDRESS, u8 WriteAddr)
+void I2C_ByteWrite(u8* pBuffer, u8 HARD_ADDRESS, u8 WriteAddr)
 {
-	/* Send STRAT condition */
-	I2C_GenerateSTART(I2C2, ENABLE);
+  /* Send STRAT condition */
+  I2C_GenerateSTART(I2C2, ENABLE);
 
-	/* Test on EV5 and clear it */
-	//while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
+  /* Test on EV5 and clear it */
+  //while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));   
 #if ENABLE_I2C_DELAY
 	I2C_delay();
 #endif
-	/* Send Hardware address for write */
-	I2C_Send7bitAddress(I2C2, HARD_ADDRESS, I2C_Direction_Transmitter);
+  /* Send Hardware address for write */
+  I2C_Send7bitAddress(I2C2, HARD_ADDRESS, I2C_Direction_Transmitter);
+  
+  /* Test on EV6 and clear it */
+  while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+      
+  /* Send the Hardware's internal address to write to */
+  I2C_SendData(I2C2, WriteAddr);
+  
+  /* Test on EV8 and clear it */
+  while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
 
-	/* Test on EV6 and clear it */
-	while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-
-	/* Send the Hardware's internal address to write to */
-	I2C_SendData(I2C2, WriteAddr);
-
-	/* Test on EV8 and clear it */
-	while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-
-	/* Send the byte to be written */
-	I2C_SendData(I2C2, *pBuffer);
-
-	/* Test on EV8 and clear it */
-	while (!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-
-	/* Send STOP condition */
-	I2C_GenerateSTOP(I2C2, ENABLE);
+  /* Send the byte to be written */
+  I2C_SendData(I2C2, *pBuffer); 
+   
+  /* Test on EV8 and clear it */
+  while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  
+  /* Send STOP condition */
+  I2C_GenerateSTOP(I2C2, ENABLE);
 }
 
-/************************************æ–‡ä»¶ç»“æŸ*********************************/
+/************************************ÎÄ¼ş½áÊø*********************************/

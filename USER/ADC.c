@@ -5,72 +5,72 @@
 
 
 ////////////////////////////////////////////////////////////////
-#define ARRAYSIZE 2*4   //2é€šé“*4å­—èŠ‚
+#define ARRAYSIZE 2*4   //2Í¨µÀ*4×Ö½Ú
 #define ADC1_DR_Address    ((uint32_t)0x4001244C)
 volatile uint16_t ADC_values[ARRAYSIZE];
 
 /**************************************************************/
-//ç¨‹ åº åï¼š ADC_Config()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š ADCé…ç½®
+//³Ì Ğò Ãû£º ADC_Config()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ADCÅäÖÃ
 //**************************************************************/
 void ADC_Config(void)
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-	ADC_InitTypeDef ADC_InitStructure;
-
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1 | RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3 ;   // PC2 -> AD_SIG1  PC3-> AD_SIG2
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-
-	//ADC1 configuration
-	//select continuous conversion mode
-	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-	//We will convert multiple channels
-	ADC_InitStructure.ADC_ScanConvMode = ENABLE;
-	//we will convert one time
-	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;//
-	//select no external triggering
-	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
-	//right 12-bit data alignment in ADC data register
-	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-	//2 channels conversion
-	ADC_InitStructure.ADC_NbrOfChannel = 2;
-	//load structure values to control and status registers
-	ADC_Init(ADC1, &ADC_InitStructure);
-
-	//configure each channel
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_12, 1, ADC_SampleTime_41Cycles5);
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 2, ADC_SampleTime_41Cycles5);
-	//Enable ADC1
-	ADC_Cmd(ADC1, ENABLE);
-	//enable DMA for ADC
-	ADC_DMACmd(ADC1, ENABLE);
-	//Enable ADC1 reset calibration register
-	ADC_ResetCalibration(ADC1);
-	//Check the end of ADC1 reset calibration register
-	while (ADC_GetResetCalibrationStatus(ADC1));
-	//Start ADC1 calibration
-	ADC_StartCalibration(ADC1);
-	//Check the end of ADC1 calibration
-	while (ADC_GetCalibrationStatus(ADC1));
+{ 
+    GPIO_InitTypeDef GPIO_InitStructure;
+    ADC_InitTypeDef ADC_InitStructure;
+    
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1 | RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3 ;   // PC2 -> AD_SIG1  PC3-> AD_SIG2
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+  
+    
+    //ADC1 configuration
+    //select continuous conversion mode
+    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+    //We will convert multiple channels
+    ADC_InitStructure.ADC_ScanConvMode = ENABLE;
+    //we will convert one time
+    ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;//
+    //select no external triggering
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    //right 12-bit data alignment in ADC data register
+    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+    //2 channels conversion
+    ADC_InitStructure.ADC_NbrOfChannel = 2;
+    //load structure values to control and status registers
+    ADC_Init(ADC1, &ADC_InitStructure);
+    
+    //configure each channel
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_12, 1, ADC_SampleTime_41Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 2, ADC_SampleTime_41Cycles5);
+    //Enable ADC1
+    ADC_Cmd(ADC1, ENABLE);
+    //enable DMA for ADC
+    ADC_DMACmd(ADC1, ENABLE);
+    //Enable ADC1 reset calibration register
+    ADC_ResetCalibration(ADC1);
+    //Check the end of ADC1 reset calibration register
+    while(ADC_GetResetCalibrationStatus(ADC1));
+    //Start ADC1 calibration
+    ADC_StartCalibration(ADC1);
+    //Check the end of ADC1 calibration
+    while(ADC_GetCalibrationStatus(ADC1));  
 }
 
 /**************************************************************/
-//ç¨‹ åº åï¼š DMA_Config()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š DMAé…ç½®
+//³Ì Ğò Ãû£º DMA_Config()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º DMAÅäÖÃ
 //**************************************************************/
 void DMA_Config(void)
-{
-	DMA_InitTypeDef  DMA_InitStructure;
-	//enable DMA1 clock
+{ 
+  DMA_InitTypeDef  DMA_InitStructure;
+    //enable DMA1 clock
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
-
+	
 	//reset DMA1 channe1 to default values;
 	DMA_DeInit(DMA1_Channel1);
 	//channel will be used for memory to memory transfer
@@ -95,58 +95,59 @@ void DMA_Config(void)
 	DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_values;
 	//send values to DMA registers
 	DMA_Init(DMA1_Channel1, &DMA_InitStructure);
-
-	//Enable DMA1 Channel transfer
-	DMA_Cmd(DMA1_Channel1, ENABLE);
-	//Start ADC1 Software Conversion
-	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-
+  
+  //Enable DMA1 Channel transfer
+  DMA_Cmd(DMA1_Channel1, ENABLE);
+  //Start ADC1 Software Conversion
+  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+  
 	// Enable DMA1 Channel Transfer Complete interrupt
-	/*
+  /*
 	DMA_ITConfig(DMA1_Channel1, DMA_IT_TC, ENABLE);
-
+  
 	NVIC_InitTypeDef NVIC_InitStructure;
-	*/
-
+  */
+  
 	//Enable DMA1 channel IRQ Channel
-	/*
+  /*
 	NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
-	*/
+  */
 }
 /**************************************************************/
-//ç¨‹ åº åï¼š Adc_Init()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š ADCæ‰€æœ‰å¤–è®¾åˆå§‹åŒ–
+//³Ì Ğò Ãû£º Adc_Init()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ADCËùÓĞÍâÉè³õÊ¼»¯
 //**************************************************************/
 void  Adc_Init(void)
-{
-	ADC_Config();
-	DMA_Config();
+{	
+  ADC_Config();
+  DMA_Config(); 
 }
 
 /**************************************************************/
-//ç¨‹ åº åï¼š Adc_Proc()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š Adcå¤„ç†å‡½æ•° adé‡‡æ ·è½¬æ¢ä¸ºpwmå€¼è°ƒèŠ‚RGB_B RGB_Rçš„äº®åº¦
+//³Ì Ğò Ãû£º Adc_Proc()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º Adc´¦Àíº¯Êı ad²ÉÑù×ª»»ÎªpwmÖµµ÷½ÚRGB_B RGB_RµÄÁÁ¶È
 //**************************************************************/
 void  Adc_Proc(void)
-{
-	uint8_t pwmwave = 0; //adé‡‡æ ·è½¬æ¢ä¸ºpwmå€¼è°ƒèŠ‚RGB_B RGB_Rçš„äº®åº¦
-	uint8_t index;
-	uint16_t value[2];
-	for (index = 0; index < 2; index++) { //2 channel
-		value[index] = (uint16_t)((ADC_values[index] + ADC_values[index + 2] + ADC_values[index + 4] + ADC_values[index + 6]) / 4);
-	}
-	pwmwave = value[0] >> 8;
-	printf("The AD_SIG1 value is: %d\r\n", pwmwave);
-
-	pwmwave = value[1] >> 8;
-	printf("The AD_SIG2 value is: %d\r\n", pwmwave);
-
+{ 
+    uint8_t pwmwave = 0; //ad²ÉÑù×ª»»ÎªpwmÖµµ÷½ÚRGB_B RGB_RµÄÁÁ¶È
+    uint8_t index;
+    uint16_t value[2];
+    for(index = 0; index<2; index++) //2 channel
+    {
+        value[index] = (uint16_t)((ADC_values[index]+ADC_values[index+2]+ADC_values[index+4]+ADC_values[index+6])/4);
+    }
+    pwmwave = value[0] >> 8;
+		printf("The AD_SIG1 value is: %d\r\n", pwmwave);
+   
+    pwmwave = value[1] >> 8;
+		printf("The AD_SIG2 value is: %d\r\n", pwmwave);
+    
 }

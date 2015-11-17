@@ -10,68 +10,68 @@ extern unsigned char read_sd_detect_flag;
 extern unsigned char sd_detect_change;
 extern unsigned int buzzer_delay;
 /**************************************************************/
-//ç¨‹ åº åï¼š Tim3 NVIC_Config()
-//å¼€ å‘ è€…ï¼š Haichao.Xie
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š ä¸­æ–­åµŒå¥—å‘é‡é…ç½®
+//³Ì Ğò Ãû£º Tim3 NVIC_Config()
+//¿ª ·¢ Õß£º Haichao.Xie
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ÖĞ¶ÏÇ¶Ì×ÏòÁ¿ÅäÖÃ
 //**************************************************************/
-void Tim3_NVIC_Config(void)//åµŒå¥—å‘é‡æ§åˆ¶å™¨
-{
-	NVIC_InitTypeDef NVIC_InitStructure;                       //å®šä¹‰ç»“æ„ä½“å˜é‡
-	//  è®¾ç½®ä¼˜å…ˆåˆ†çº§ç»„
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);            //0ç»„ï¼Œå…¨å‰¯ä¼˜å…ˆçº§
-
-	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;           //é€‰æ‹©ä¸­æ–­é€šé“ï¼Œåº“P166é¡µï¼Œ
-	//  é€‰æ‹©ä¸­æ–­é€šé“ã€‚æ³¨æ„ï¼šå›ºä»¶åº“ä¸­ä¸ºXXX_IRQChannelï¼Œä½†è¯¥ç¨‹åºé¢„å®šä¹‰ä¸ºXXX_IRQnï¼Œæ‰€ä»¥è¦ç‰¹åˆ«æ³¨æ„
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //æŠ¢å ä¼˜å…ˆçº§0
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;         //å“åº”ä¼˜å…ˆçº§2
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;            //å¯åŠ¨æ­¤é€šé“çš„ä¸­æ–­
-	NVIC_Init(&NVIC_InitStructure);                            //åµŒå¥—å‘é‡åˆå§‹åŒ–
+void Tim3_NVIC_Config(void)//Ç¶Ì×ÏòÁ¿¿ØÖÆÆ÷
+{		
+	NVIC_InitTypeDef NVIC_InitStructure;                       //¶¨Òå½á¹¹Ìå±äÁ¿		
+	//  ÉèÖÃÓÅÏÈ·Ö¼¶×é   																
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);            //0×é£¬È«¸±ÓÅÏÈ¼¶		 
+ 
+	NVIC_InitStructure.NVIC_IRQChannel=TIM3_IRQn;             //Ñ¡ÔñÖĞ¶ÏÍ¨µÀ£¬¿âP166Ò³£¬
+	//  Ñ¡ÔñÖĞ¶ÏÍ¨µÀ¡£×¢Òâ£º¹Ì¼ş¿âÖĞÎªXXX_IRQChannel£¬µ«¸Ã³ÌĞòÔ¤¶¨ÒåÎªXXX_IRQn£¬ËùÒÔÒªÌØ±ğ×¢Òâ	 
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0;    //ÇÀÕ¼ÓÅÏÈ¼¶0
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority=2;           //ÏìÓ¦ÓÅÏÈ¼¶2
+	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;              //Æô¶¯´ËÍ¨µÀµÄÖĞ¶Ï
+	NVIC_Init(&NVIC_InitStructure);                            //Ç¶Ì×ÏòÁ¿³õÊ¼»¯		  
 }
 
 /**************************************************************/
-//ç¨‹ åº åï¼š TIM3_Config()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š å®šæ—¶å™¨åŸºæœ¬æ—¶é’Ÿé…ç½®
+//³Ì Ğò Ãû£º TIM3_Config()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ¶¨Ê±Æ÷»ù±¾Ê±ÖÓÅäÖÃ
 //**************************************************************/
 void TIM3_Config(void)
 {
-	//TIM_OCInitTypeDef  TIM_OCInitStructure;//å®šä¹‰ç»“æ„ä½“
-	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure ;//å®šä¹‰ç»“æ„ä½“
-	/* æ‰“å¼€å®šæ—¶å™¨2å¤–è®¾æ—¶é’Ÿ */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3 , ENABLE);
-
-	/* å®šæ—¶å™¨2åŸºæœ¬å®šæ—¶å™¨è®¾ç½® */
-	/* å®šæ—¶å™¨ä»0è®¡æ•°åˆ°0xffä¸ºä¸€ä¸ªå®šæ—¶å‘¨æœŸ */
-	TIM_TimeBaseStructure.TIM_Period =  1000;
-
-	/* è®¾ç½®é¢„åˆ†é¢‘ 72åˆ†é¢‘ */
-	TIM_TimeBaseStructure.TIM_Prescaler =  72 - 1;
-
-	/* è®¾ç½®æ—¶é’Ÿåˆ†é¢‘ç³»æ•°ï¼Œæ­¤å¤„æœªåˆ†é¢‘ */
-	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-
-	/* å‘ä¸Šè®¡æ•°æ¨¡å¼ */
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-
-	/* åŸºæœ¬å®šæ—¶å™¨åˆå§‹åŒ– */
-	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-
-	/* ä½¿èƒ½ TIM3 é‡è½½å¯„å­˜å™¨ ARR */
-	TIM_ARRPreloadConfig(TIM3, ENABLE);
-
-	/* ä½¿èƒ½å®šæ—¶å™¨3 */
-	TIM_Cmd(TIM3, ENABLE);
-
-	/* ä½¿èƒ½å®šæ—¶å™¨3çš„ updateä¸­æ–­ */
-	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
+    //TIM_OCInitTypeDef  TIM_OCInitStructure;//¶¨Òå½á¹¹Ìå
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure ;//¶¨Òå½á¹¹Ìå
+    /* ´ò¿ª¶¨Ê±Æ÷2ÍâÉèÊ±ÖÓ */ 
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3 , ENABLE);
+                          
+		/* ¶¨Ê±Æ÷2»ù±¾¶¨Ê±Æ÷ÉèÖÃ */
+		/* ¶¨Ê±Æ÷´Ó0¼ÆÊıµ½0xffÎªÒ»¸ö¶¨Ê±ÖÜÆÚ */
+    TIM_TimeBaseStructure.TIM_Period =  1000;
+	
+		/* ÉèÖÃÔ¤·ÖÆµ 72·ÖÆµ */
+    TIM_TimeBaseStructure.TIM_Prescaler =  72 - 1;
+	
+		/* ÉèÖÃÊ±ÖÓ·ÖÆµÏµÊı£¬´Ë´¦Î´·ÖÆµ */
+    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	
+		/* ÏòÉÏ¼ÆÊıÄ£Ê½ */
+    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	
+		/* »ù±¾¶¨Ê±Æ÷³õÊ¼»¯ */
+    TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+			
+    /* Ê¹ÄÜ TIM3 ÖØÔØ¼Ä´æÆ÷ ARR */
+    TIM_ARRPreloadConfig(TIM3, ENABLE);
+		
+    /* Ê¹ÄÜ¶¨Ê±Æ÷3 */
+    TIM_Cmd(TIM3, ENABLE);
+		
+		/* Ê¹ÄÜ¶¨Ê±Æ÷3µÄ updateÖĞ¶Ï */
+    TIM_ITConfig(TIM3,TIM_IT_Update, ENABLE);
 }
 
 
 
 
-//TIMER3åˆå§‹åŒ–
+//TIMER3³õÊ¼»¯
 void Tim3_Init(void)
 {
 	Tim3_NVIC_Config();
@@ -80,29 +80,30 @@ void Tim3_Init(void)
 
 
 /**************************************************************/
-//ç¨‹ åº åï¼š TIM3_IRQHandler()
-//å¼€ å‘ è€…ï¼š chenhonglin
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š å®šæ—¶å™¨3ä¸­æ–­æœåŠ¡ç¨‹åº
-//**************************************************************/
-void TIM3_IRQHandler(void)						   //TIM3ä¸­æ–­æœåŠ¡å‡½æ•°
+//³Ì Ğò Ãû£º TIM3_IRQHandler()
+//¿ª ·¢ Õß£º chenhonglin
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ¶¨Ê±Æ÷3ÖĞ¶Ï·şÎñ³ÌĞò
+//**************************************************************/ 
+void TIM3_IRQHandler(void)						   //TIM3ÖĞ¶Ï·şÎñº¯Êı
 {
-	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) { //TIM_IT_Update
-		TIM_ClearITPendingBit (TIM3, TIM_IT_Update); //å¿…é¡»è¦æ¸…é™¤ä¸­æ–­æ ‡å¿—ä½
+	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) //TIM_IT_Update
+	{
+		TIM_ClearITPendingBit (TIM3, TIM_IT_Update); //±ØĞëÒªÇå³ıÖĞ¶Ï±êÖ¾Î»
 		timer3_cnt++;
-
+		
 		Change_PcieIo_Flag();
-
-		if (timer3_cnt >= 10) {
+		
+		if (timer3_cnt >= 10){
 			timer3_cnt = 0;
 			read_lis3dh_flag = 1;
 			read_sd_detect_flag = 1;
 		}
 
-		if (sd_detect_change) {
+		if(sd_detect_change){
 			buzzer_delay++;
-			if (buzzer_delay >= 50) {
-				TIM_Cmd(TIM1, DISABLE);  //å…³é—­èœ‚é¸£å™¨
+			if (buzzer_delay >= 50){
+				TIM_Cmd(TIM1, DISABLE);  //¹Ø±Õ·äÃùÆ÷
 				TIM_CtrlPWMOutputs(TIM1, DISABLE);
 				sd_detect_change = 0;
 				buzzer_delay = 0;
@@ -110,4 +111,5 @@ void TIM3_IRQHandler(void)						   //TIM3ä¸­æ–­æœåŠ¡å‡½æ•°
 		}
 	}
 }
+
 

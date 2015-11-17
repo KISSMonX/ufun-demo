@@ -1,3 +1,4 @@
+
 #include "stm32f10x.h"
 #include <stdio.h>
 #include "BUZZER.h"
@@ -41,40 +42,40 @@ unsigned char sd_detect_change = 0;
 *******************************************************************************/
 void SysTick_Delay_ms(u32 nTime)
 {
-	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;	// å¼€å¯è®¡æ•°å™¨
+	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;	// ¿ªÆô¼ÆÊıÆ÷
 	while(nTime > SYSTICK_CMP_MS)
 	{
 		SysTick->LOAD = SysTick_LOAD_RELOAD_Msk;
-		SysTick->VAL = 0;							// æ¸…ç©ºè®¡æ•°å™¨
+		SysTick->VAL = 0;							// Çå¿Õ¼ÆÊıÆ÷
 		nTime -= SYSTICK_CMP_MS;
 		while(!(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk));
 	}
 	SysTick->LOAD = SYSTICK_BASE_MS * nTime;
-	SysTick->VAL = 0;							// æ¸…ç©ºè®¡æ•°å™¨
+	SysTick->VAL = 0;							// Çå¿Õ¼ÆÊıÆ÷
 	while(!(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk));
-	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;	// å…³é—­è®¡æ•°å™¨
+	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;	// ¹Ø±Õ¼ÆÊıÆ÷
 }
 
 
 /**************************************************************/
-//ç¨‹ åº åï¼š main()
-//å¼€ å‘ è€…ï¼š MingH
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š ä¸»å‡½æ•°
+//³Ì Ğò Ãû£º main()
+//¿ª ·¢ Õß£º MingH
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º Ö÷º¯Êı
 //**************************************************************/
 int main(void)
 {
 	unsigned char err_code;
-	RCC_Config();		// æ—¶é’Ÿåˆå§‹åŒ–é…ç½®
-	Beep_Init();		// èœ‚é¸£å™¨åˆå§‹åŒ–é…ç½®
+	RCC_Config();		// Ê±ÖÓ³õÊ¼»¯ÅäÖÃ
+	Beep_Init();		// ·äÃùÆ÷³õÊ¼»¯ÅäÖÃ
 	Touch_Init();
 	Pcie_Gpio_Init();
 	Tim3_Init();
 	
-	RGB_Init();     //RGB åˆå§‹åŒ–
+	RGB_Init();     //RGB ³õÊ¼»¯
 	RCC_GetClocksFreq(&RCC_ClockFreq);		
 	SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK);	
-	USB2Serial_Init(); 	// ä¸²å£åˆå§‹åŒ–é…ç½®
+	USB2Serial_Init(); 	// ´®¿Ú³õÊ¼»¯ÅäÖÃ
 	Pwm_Init();
 	Adc_Init();
 	I2C_GPIO_Configuration();
@@ -89,18 +90,18 @@ int main(void)
 		printf("\r\nLIS3DH Init is failed! \r\n");
 	}
 	
-	RTC_Init(); 		// RTC åˆå§‹åŒ–é…ç½®
+	RTC_Init(); 		// RTC ³õÊ¼»¯ÅäÖÃ
 
 
 	if(SD_Init() == SD_OK) {
 	
-		printf ("\r\nå‘ç°SDå¡!\r\n");
+		printf ("\r\n·¢ÏÖSD¿¨!\r\n");
 	}
 	else {
-		printf("\r\næ²¡æœ‰å‘ç° SD å¡è®¾å¤‡! \r\n");
+		printf("\r\nÃ»ÓĞ·¢ÏÖ SD ¿¨Éè±¸! \r\n");
 	}
 	printf("\r\n\r\n");
-	save_sd_detect = SD_Detect(); //åˆå§‹åŒ–SDå¡æ’å…¥çŠ¶æ€
+	save_sd_detect = SD_Detect(); //³õÊ¼»¯SD¿¨²åÈë×´Ì¬
 	
 	SysTick_Delay_ms(500);
 	TIM_Cmd(TIM1, DISABLE);
@@ -110,17 +111,17 @@ int main(void)
 		if(read_sd_detect_flag){
 			
 			if (save_sd_detect != SD_Detect()){
-				/* èœ‚é¸£å™¨å“ */
+				/* ·äÃùÆ÷Ïì */
 				TIM_Cmd(TIM1, ENABLE);
 				TIM_CtrlPWMOutputs(TIM1, ENABLE);
-				sd_detect_change = 1; //SDå¡æ’å…¥çŠ¶æ€æœ‰å˜
+				sd_detect_change = 1; //SD¿¨²åÈë×´Ì¬ÓĞ±ä
 				buzzer_delay = 0;
 				if (SD_Detect() != SD_NOT_PRESENT){
 						if(SD_Init() == SD_OK) {
-							printf ("\r\nå‘ç°SDå¡!\r\n");
+							printf ("\r\n·¢ÏÖSD¿¨!\r\n");
 						}
 						else {
-							printf("\r\næ²¡æœ‰å‘ç° SD å¡è®¾å¤‡! \r\n");
+							printf("\r\nÃ»ÓĞ·¢ÏÖ SD ¿¨Éè±¸! \r\n");
 						}
 						printf("\r\n\r\n");
 				}
@@ -144,7 +145,7 @@ int main(void)
 					ACCdiff[i] = oldACCdata[i] - ACCdata[i];
 				}
 			}
-			RGB_Control(ACCdiff[0]<<1, ACCdiff[1]<<1, ACCdiff[2]<<1);
+			RGB_Control(ACCdiff[0]<<2, ACCdiff[1]<<2, ACCdiff[2]<<2);
 			for (i=0; i<3; i++){
 				oldACCdata[i] = ACCdata[i];
 			}
@@ -160,52 +161,52 @@ int main(void)
 
 
 /**************************************************************/
-//ç¨‹ åº åï¼š RCC_Config()
-//å¼€ å‘ è€…ï¼š Haichao.Xie
-//å…¥å£å‚æ•°ï¼š æ— 
-//åŠŸèƒ½è¯´æ˜ï¼š ç³»ç»Ÿæ—¶é’Ÿé…ç½®
+//³Ì Ğò Ãû£º RCC_Config()
+//¿ª ·¢ Õß£º Haichao.Xie
+//Èë¿Ú²ÎÊı£º ÎŞ
+//¹¦ÄÜËµÃ÷£º ÏµÍ³Ê±ÖÓÅäÖÃ
 //**************************************************************/
 void RCC_Config(void)
 {
-	ErrorStatus HSEStartUpStatus;	//å®šä¹‰ç»“æ„ä½“
-	/* RCC system reset(for debug purpose)å°†å¤–è®¾ RCCå¯„å­˜å™¨é‡è®¾ä¸ºç¼ºçœå€¼ */
+	ErrorStatus HSEStartUpStatus;	//¶¨Òå½á¹¹Ìå
+	/* RCC system reset(for debug purpose)½«ÍâÉè RCC¼Ä´æÆ÷ÖØÉèÎªÈ±Ê¡Öµ */
 	RCC_DeInit();
-	/* Enable HSE è®¾ç½®å¤–éƒ¨é«˜é€Ÿæ™¶æŒ¯ï¼ˆHSEï¼‰*/
+	/* Enable HSE ÉèÖÃÍâ²¿¸ßËÙ¾§Õñ£¨HSE£©*/
 	RCC_HSEConfig(RCC_HSE_ON);
-	/* Wait till HSE is ready ç­‰å¾… HSE èµ·æŒ¯*/
+	/* Wait till HSE is ready µÈ´ı HSE ÆğÕñ*/
 	HSEStartUpStatus = RCC_WaitForHSEStartUp();
 
 	if (HSEStartUpStatus == SUCCESS)
 	{
-		/* Enable Prefetch Buffer é¢„å–æŒ‡ç¼“å­˜ä½¿èƒ½*/
+		/* Enable Prefetch Buffer Ô¤È¡Ö¸»º´æÊ¹ÄÜ*/
 		FLASH_PrefetchBufferCmd(FLASH_PrefetchBuffer_Enable);
 
-		/* Flash 2 wait state è®¾ç½®ä»£ç å»¶æ—¶å€¼*/
+		/* Flash 2 wait state ÉèÖÃ´úÂëÑÓÊ±Öµ*/
 		FLASH_SetLatency(FLASH_Latency_2);
 
-		/* HCLK = SYSCLK è®¾ç½® AHB æ—¶é’Ÿï¼ˆHCLKï¼‰*/
+		/* HCLK = SYSCLK ÉèÖÃ AHB Ê±ÖÓ£¨HCLK£©*/
 		RCC_HCLKConfig(RCC_SYSCLK_Div1);
 
-		/* PCLK2 = HCLK è®¾ç½®é«˜é€Ÿ AHB æ—¶é’Ÿï¼ˆPCLK2ï¼‰*/
+		/* PCLK2 = HCLK ÉèÖÃ¸ßËÙ AHB Ê±ÖÓ£¨PCLK2£©*/
 		RCC_PCLK2Config(RCC_HCLK_Div1);
 
-		/* PCLK1 = HCLK/1 è®¾ç½®ä½é€Ÿ AHB æ—¶é’Ÿï¼ˆPCLK1ï¼‰*/
+		/* PCLK1 = HCLK/1 ÉèÖÃµÍËÙ AHB Ê±ÖÓ£¨PCLK1£©*/
 		RCC_PCLK1Config(RCC_HCLK_Div1);
 
-		/* PLLCLK = 12MHz * 6 = 72 MHz è®¾ç½® PLL æ—¶é’ŸæºåŠå€é¢‘ç³»æ•°*/
+		/* PLLCLK = 12MHz * 6 = 72 MHz ÉèÖÃ PLL Ê±ÖÓÔ´¼°±¶ÆµÏµÊı*/
 		RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_6);
 
-		/* Enable PLL ä½¿èƒ½æˆ–è€…å¤±èƒ½ PLL*/
+		/* Enable PLL Ê¹ÄÜ»òÕßÊ§ÄÜ PLL*/
 		RCC_PLLCmd(ENABLE);
 
-		/* Wait till PLL is ready ç­‰å¾…æŒ‡å®šçš„ RCC æ ‡å¿—ä½è®¾ç½®æˆåŠŸ ç­‰å¾…PLLåˆå§‹åŒ–æˆåŠŸ*/
+		/* Wait till PLL is ready µÈ´ıÖ¸¶¨µÄ RCC ±êÖ¾Î»ÉèÖÃ³É¹¦ µÈ´ıPLL³õÊ¼»¯³É¹¦*/
 		while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET)
 		{
 		}
-		/* Select PLL as system clock source è®¾ç½®ç³»ç»Ÿæ—¶é’Ÿï¼ˆSYSCLKï¼‰ è®¾ç½®PLLä¸ºç³»ç»Ÿæ—¶é’Ÿæº*/
+		/* Select PLL as system clock source ÉèÖÃÏµÍ³Ê±ÖÓ£¨SYSCLK£© ÉèÖÃPLLÎªÏµÍ³Ê±ÖÓÔ´*/
 		RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
 
-		/* Wait till PLL is used as system clock source ç­‰å¾…PLLæˆåŠŸç”¨ä½œäºç³»ç»Ÿæ—¶é’Ÿçš„æ—¶é’Ÿæº*/
+		/* Wait till PLL is used as system clock source µÈ´ıPLL³É¹¦ÓÃ×÷ÓÚÏµÍ³Ê±ÖÓµÄÊ±ÖÓÔ´*/
 		while(RCC_GetSYSCLKSource() != 0x08)
 		{
 		}
